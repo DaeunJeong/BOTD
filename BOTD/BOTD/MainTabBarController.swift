@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import Home
 
 class MainTabBarController: UITabBarController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
         let homeTab = UITab(title: "홈", image: UIImage(systemName: "house"), identifier: "Home") { _ in
-            UIViewController()
+            let homeVM = HomeViewModel()
+            let homeVC = HomeViewController(viewModel: homeVM)
+            let homeNC = UINavigationController(rootViewController: homeVC)
+            return homeNC
         }
         tabs = [homeTab]
     }

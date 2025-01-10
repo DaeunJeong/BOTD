@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C46ED2C32D30DD7100EC0E47 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2C22D30DD7100EC0E47 /* Differentiator */; };
+		C46ED2CB2D30DE8900EC0E47 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2CA2D30DE8900EC0E47 /* Home */; };
 		C4814FF52D2CFA2F00D602B8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C4814FF42D2CFA2F00D602B8 /* Alamofire */; };
 		C4814FF82D2CFC7600D602B8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C4814FF72D2CFC7600D602B8 /* RealmSwift */; };
 		C4814FFB2D2CFD3000D602B8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C4814FFA2D2CFD3000D602B8 /* Kingfisher */; };
@@ -34,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		C4D4440C2D2C0B4500CBC50E /* BOTD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOTD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D444222D2C0B4600CBC50E /* BOTDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOTDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D4442C2D2C0B4600CBC50E /* BOTDUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOTDUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,9 +82,11 @@
 				C4814FFB2D2CFD3000D602B8 /* Kingfisher in Frameworks */,
 				C4814FFE2D2CFD4000D602B8 /* SnapKit in Frameworks */,
 				C48150012D2CFF4400D602B8 /* RxCocoa in Frameworks */,
+				C46ED2C32D30DD7100EC0E47 /* Differentiator in Frameworks */,
 				C48150062D2CFF6A00D602B8 /* RxDataSources in Frameworks */,
 				C4814FF82D2CFC7600D602B8 /* RealmSwift in Frameworks */,
 				C4814FF52D2CFA2F00D602B8 /* Alamofire in Frameworks */,
+				C46ED2CB2D30DE8900EC0E47 /* Home in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,12 +107,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C46ED2C72D30DE5D00EC0E47 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				C46ED2C62D30DE5D00EC0E47 /* Home */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		C46ED2C82D30DE5D00EC0E47 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C46ED2C72D30DE5D00EC0E47 /* Feature */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		C46ED2C92D30DE8900EC0E47 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C4D444032D2C0B4500CBC50E = {
 			isa = PBXGroup;
 			children = (
 				C4D4440E2D2C0B4500CBC50E /* BOTD */,
+				C46ED2C82D30DE5D00EC0E47 /* Packages */,
 				C4D444252D2C0B4600CBC50E /* BOTDTests */,
 				C4D4442F2D2C0B4600CBC50E /* BOTDUITests */,
+				C46ED2C92D30DE8900EC0E47 /* Frameworks */,
 				C4D4440D2D2C0B4500CBC50E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -149,6 +179,8 @@
 				C48150002D2CFF4400D602B8 /* RxCocoa */,
 				C48150022D2CFF4400D602B8 /* RxSwift */,
 				C48150052D2CFF6A00D602B8 /* RxDataSources */,
+				C46ED2C22D30DD7100EC0E47 /* Differentiator */,
+				C46ED2CA2D30DE8900EC0E47 /* Home */,
 			);
 			productName = BOTD;
 			productReference = C4D4440C2D2C0B4500CBC50E /* BOTD.app */;
@@ -646,6 +678,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C46ED2C22D30DD7100EC0E47 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C48150042D2CFF6A00D602B8 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		C46ED2CA2D30DE8900EC0E47 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
+		};
 		C4814FF42D2CFA2F00D602B8 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C4814FF32D2CFA2F00D602B8 /* XCRemoteSwiftPackageReference "Alamofire" */;
