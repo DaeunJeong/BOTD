@@ -10,10 +10,12 @@ import RxDataSources
 
 public enum HomeSection {
     case titleHeader([Item])
+    case todaysBook([Item])
     
     public var items: [Item] {
         switch self {
         case let .titleHeader(items): return items
+        case let .todaysBook(items): return items
         }
     }
     
@@ -23,6 +25,12 @@ public enum HomeSection {
         case .titleHeader:
             let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100)))
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+        case .todaysBook:
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(224)))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(224))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
             return section
@@ -37,16 +45,20 @@ extension HomeSection: SectionModelType {
         switch original {
         case .titleHeader:
             self = .titleHeader(items)
+        case .todaysBook:
+            self = .todaysBook(items)
         }
     }
 }
 
 public enum HomeCellData {
     case todaysBookHeader
+    case todaysBook(TodaysBookDisplayable?)
     
     var cellStyle: HomeCellProtocol.Type {
         switch self {
         case .todaysBookHeader: HomeTitleHeaderCell.self
+        case .todaysBook: HomeTodaysBookCell.self
         }
     }
 }

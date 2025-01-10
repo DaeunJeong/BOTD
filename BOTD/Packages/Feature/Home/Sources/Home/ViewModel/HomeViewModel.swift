@@ -16,6 +16,12 @@ public struct HomeViewModel: HomeViewModelProtocol {
     public let sections: Observable<[HomeSection]>
     
     public init() {
-        sections = .just([.titleHeader([.todaysBookHeader])])
+        sections = .just([.titleHeader([.todaysBookHeader]),
+                          .todaysBook([.todaysBook(MockTodaysBook())])])
     }
+}
+
+struct MockTodaysBook: TodaysBookDisplayable {
+    var historyID: String { "" }
+    var bookImageURL: URL? { URL(string: "https://image.yes24.com/goods/6157159/XL") }
 }
