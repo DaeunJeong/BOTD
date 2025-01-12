@@ -30,11 +30,14 @@ public final class HomeTitleHeaderCell: UICollectionViewCell, HomeCellProtocol {
     }
     
     public func apply(cellData: HomeCellData) {
-        guard case .todaysBookHeader = cellData else { return }
-        let titleText = "오늘 읽은 책은 어땠나요?📚\n기억에 남는 구절을 기록해 보세요."
-        let attributedString = NSMutableAttributedString(string: titleText)
-        attributedString.addAttributes(font: .boldSystemFont(ofSize: 20), color: nil, pointText: "기억에 남는 구절을 기록해 보세요.")
-        attributedString.addAttributes(font: nil, color: .beige700, pointText: "책")
-        titleLabel.attributedText = attributedString
+        if case .todaysBookHeader = cellData {
+            let titleText = "오늘 읽은 책은 어땠나요?📚\n기억에 남는 구절을 기록해 보세요."
+            let attributedString = NSMutableAttributedString(string: titleText)
+            attributedString.addAttributes(font: .boldSystemFont(ofSize: 20), color: nil, pointText: "기억에 남는 구절을 기록해 보세요.")
+            attributedString.addAttributes(font: nil, color: .beige700, pointText: "책")
+            titleLabel.attributedText = attributedString
+        } else if case let .titleHeader(string) = cellData {
+            titleLabel.attributedText = .init(string: string)
+        }
     }
 }

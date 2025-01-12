@@ -17,6 +17,7 @@
 		C48150012D2CFF4400D602B8 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C48150002D2CFF4400D602B8 /* RxCocoa */; };
 		C48150032D2CFF4400D602B8 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C48150022D2CFF4400D602B8 /* RxSwift */; };
 		C48150062D2CFF6A00D602B8 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C48150052D2CFF6A00D602B8 /* RxDataSources */; };
+		C4D1F7D02D33900700F12059 /* CommonUI in Frameworks */ = {isa = PBXBuildFile; productRef = C4D1F7CF2D33900700F12059 /* CommonUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		C46ED2E32D30EC4B00EC0E47 /* Extension */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Extension; sourceTree = "<group>"; };
+		C4D1F7CE2D338FD000F12059 /* CommonUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CommonUI; sourceTree = "<group>"; };
 		C4D4440C2D2C0B4500CBC50E /* BOTD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOTD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D444222D2C0B4600CBC50E /* BOTDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOTDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D4442C2D2C0B4600CBC50E /* BOTDUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOTDUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,7 @@
 				C46ED2E62D30ED3700EC0E47 /* Extension in Frameworks */,
 				C46ED2C32D30DD7100EC0E47 /* Differentiator in Frameworks */,
 				C48150062D2CFF6A00D602B8 /* RxDataSources in Frameworks */,
+				C4D1F7D02D33900700F12059 /* CommonUI in Frameworks */,
 				C4814FF82D2CFC7600D602B8 /* RealmSwift in Frameworks */,
 				C4814FF52D2CFA2F00D602B8 /* Alamofire in Frameworks */,
 				C46ED2CB2D30DE8900EC0E47 /* Home in Frameworks */,
@@ -137,6 +140,7 @@
 		C46ED2E42D30EC4B00EC0E47 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C4D1F7CE2D338FD000F12059 /* CommonUI */,
 				C46ED2E32D30EC4B00EC0E47 /* Extension */,
 			);
 			path = Core;
@@ -194,6 +198,7 @@
 				C46ED2C22D30DD7100EC0E47 /* Differentiator */,
 				C46ED2CA2D30DE8900EC0E47 /* Home */,
 				C46ED2E52D30ED3700EC0E47 /* Extension */,
+				C4D1F7CF2D33900700F12059 /* CommonUI */,
 			);
 			productName = BOTD;
 			productReference = C4D4440C2D2C0B4500CBC50E /* BOTD.app */;
@@ -738,6 +743,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C48150042D2CFF6A00D602B8 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		C4D1F7CF2D33900700F12059 /* CommonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CommonUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
