@@ -17,7 +17,8 @@ public struct HomeViewModel: HomeViewModelProtocol {
     
     public init() {
         sections = .just([.titleHeader([.todaysBookHeader]),
-                          .todaysBook([.todaysBook(MockTodaysBook())])])
+                          .todaysBook([.todaysBook(MockTodaysBook())]),
+                          .divider([.divider])])
     }
 }
 

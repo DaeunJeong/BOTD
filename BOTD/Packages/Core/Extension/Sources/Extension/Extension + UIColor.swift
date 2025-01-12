@@ -12,5 +12,6 @@ public extension UIColor {
     static let beige500 = UIColor(named: "beige500")!
     static let beige700 = UIColor(named: "beige700")!
     static let brown800 = UIColor(named: "brown800")!
+    static let gray400 = UIColor(named: "gray400")!
     static let gray600 = UIColor(named: "gray600")!
 }

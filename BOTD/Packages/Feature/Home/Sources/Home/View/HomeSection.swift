@@ -11,11 +11,13 @@ import RxDataSources
 public enum HomeSection {
     case titleHeader([Item])
     case todaysBook([Item])
+    case divider([Item])
     
     public var items: [Item] {
         switch self {
         case let .titleHeader(items): return items
         case let .todaysBook(items): return items
+        case let .divider(items): return items
         }
     }
     
@@ -34,6 +36,12 @@ public enum HomeSection {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
             return section
+        case .divider:
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(8)))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(8))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            return section
         }
     }
 }
@@ -47,6 +55,8 @@ extension HomeSection: SectionModelType {
             self = .titleHeader(items)
         case .todaysBook:
             self = .todaysBook(items)
+        case .divider:
+            self = .divider(items)
         }
     }
 }
@@ -54,11 +64,13 @@ extension HomeSection: SectionModelType {
 public enum HomeCellData {
     case todaysBookHeader
     case todaysBook(TodaysBookDisplayable?)
+    case divider
     
     var cellStyle: HomeCellProtocol.Type {
         switch self {
         case .todaysBookHeader: HomeTitleHeaderCell.self
         case .todaysBook: HomeTodaysBookCell.self
+        case .divider: HomeDividerCell.self
         }
     }
 }
