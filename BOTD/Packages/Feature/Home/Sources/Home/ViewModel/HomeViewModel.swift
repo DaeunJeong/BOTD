@@ -27,7 +27,9 @@ public struct HomeViewModel: HomeViewModelProtocol {
                                               .lastWeekHistory(history: nil, date: Date(timeIntervalSinceNow: 0)),
                                               .lastWeekHistory(history: nil, date: Date(timeIntervalSinceNow: 0)),
                                               .lastWeekHistory(history: nil, date: Date(timeIntervalSinceNow: 0))]),
-                          .divider([.divider])])
+                          .divider([.divider]),
+                          .titleHeader([.titleHeader("오늘의 구절")]),
+                          .todaysPassage([.todaysPassage(passage: "인간은 파멸당할 수는 있을지 몰라도 패배할 수는 없어", historyID: "")])])
     }
 }
 

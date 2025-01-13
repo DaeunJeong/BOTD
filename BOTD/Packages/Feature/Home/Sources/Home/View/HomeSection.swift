@@ -13,6 +13,7 @@ public enum HomeSection {
     case todaysBook([Item])
     case divider([Item])
     case lastWeekHistories([Item])
+    case todaysPassage([Item])
     
     public var items: [Item] {
         switch self {
@@ -20,6 +21,7 @@ public enum HomeSection {
         case let .todaysBook(items): return items
         case let .divider(items): return items
         case let .lastWeekHistories(items): return items
+        case let .todaysPassage(items): return items
         }
     }
     
@@ -53,6 +55,12 @@ public enum HomeSection {
             section.contentInsets = .init(top: 24, leading: 24, bottom: 32, trailing: 24)
             section.orthogonalScrollingBehavior = .continuous
             return section
+        case .todaysPassage:
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(228)))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(228))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            return section
         }
     }
 }
@@ -70,6 +78,8 @@ extension HomeSection: SectionModelType {
             self = .divider(items)
         case .lastWeekHistories:
             self = .lastWeekHistories(items)
+        case .todaysPassage:
+            self = .todaysPassage(items)
         }
     }
 }
@@ -80,6 +90,7 @@ public enum HomeCellData {
     case divider
     case titleHeader(String)
     case lastWeekHistory(history: HomeLastWeekHistoryDisplayable?, date: Date)
+    case todaysPassage(passage: String, historyID: String?)
     
     var cellStyle: HomeCellProtocol.Type {
         switch self {
@@ -88,6 +99,7 @@ public enum HomeCellData {
         case .divider: HomeDividerCell.self
         case .titleHeader: HomeTitleHeaderCell.self
         case .lastWeekHistory: HomeLastWeekHistoryCell.self
+        case .todaysPassage: HomeTodaysPassageCell.self
         }
     }
 }
