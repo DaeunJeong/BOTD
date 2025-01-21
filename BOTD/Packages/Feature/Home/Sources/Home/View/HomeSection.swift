@@ -86,7 +86,7 @@ extension HomeSection: SectionModelType {
 
 public enum HomeCellData {
     case todaysBookHeader
-    case todaysBook(TodaysBookDisplayable?)
+    case todaysBook(historyID: String?, bookImageURL: URL?)
     case divider
     case titleHeader(String)
     case lastWeekHistory(history: HomeLastWeekHistoryDisplayable?, date: Date)

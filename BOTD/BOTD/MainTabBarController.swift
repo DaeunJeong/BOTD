@@ -13,7 +13,8 @@ class MainTabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
         
         let homeTab = UITab(title: "홈", image: UIImage(systemName: "house"), identifier: "Home") { _ in
-            let homeVM = HomeViewModel()
+            let homeRP = HomeRepository()
+            let homeVM = HomeViewModel(repository: homeRP)
             let homeVC = HomeViewController(viewModel: homeVM)
             let homeNC = UINavigationController(rootViewController: homeVC)
             return homeNC

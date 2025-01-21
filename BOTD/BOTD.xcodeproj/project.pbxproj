@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C450BD152D3F91BD00140DF1 /* Entity */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Entity; sourceTree = "<group>"; };
 		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		C46ED2E32D30EC4B00EC0E47 /* Extension */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Extension; sourceTree = "<group>"; };
 		C4D1F7CE2D338FD000F12059 /* CommonUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CommonUI; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 		C46ED2E42D30EC4B00EC0E47 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C450BD152D3F91BD00140DF1 /* Entity */,
 				C4D1F7CE2D338FD000F12059 /* CommonUI */,
 				C46ED2E32D30EC4B00EC0E47 /* Extension */,
 			);

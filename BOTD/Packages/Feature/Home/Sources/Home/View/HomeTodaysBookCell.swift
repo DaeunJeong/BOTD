@@ -7,11 +7,6 @@
 
 import UIKit
 
-public protocol TodaysBookDisplayable {
-    var historyID: String { get }
-    var bookImageURL: URL? { get }
-}
-
 public class HomeTodaysBookCell: UICollectionViewCell, HomeCellProtocol {
     private let bookView = BookView()
     private let addButton: UIButton = {
@@ -46,10 +41,10 @@ public class HomeTodaysBookCell: UICollectionViewCell, HomeCellProtocol {
     }
     
     public func apply(cellData: HomeCellData) {
-        guard case let .todaysBook(bookData) = cellData else { return }
+        guard case let .todaysBook(historyID, bookImageURL) = cellData else { return }
         
-        if let bookData = bookData {
-            bookView.apply(imageURL: bookData.bookImageURL)
+        if historyID != nil, let bookImageURL = bookImageURL {
+            bookView.apply(imageURL: bookImageURL)
             addButton.isHidden = false
         } else {
             bookView.apply(imageURL: nil)

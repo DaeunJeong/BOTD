@@ -47,6 +47,8 @@ public final class HomeViewController: UIViewController {
         
         view.addSubview(collectionView)
         setupCollectionView()
+        
+        viewModel.getTodaysHistory()
     }
     
     private func setupCollectionView() {
