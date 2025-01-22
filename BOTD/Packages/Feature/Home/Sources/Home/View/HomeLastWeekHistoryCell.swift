@@ -8,12 +8,6 @@
 import UIKit
 import CommonUI
 
-public protocol HomeLastWeekHistoryDisplayable {
-    var historyID: String { get }
-    var mainBookImageURL: URL? { get }
-    var bookCount: Int { get }
-}
-
 public class HomeLastWeekHistoryCell: UICollectionViewCell, HomeCellProtocol {
     private let bookView = BookView()
     private let bookCountLabel: UILabel = {
@@ -50,11 +44,11 @@ public class HomeLastWeekHistoryCell: UICollectionViewCell, HomeCellProtocol {
     }
     
     public func apply(cellData: HomeCellData) {
-        guard case let .lastWeekHistory(history, date) = cellData else { return }
-        if let history = history {
-            bookView.apply(imageURL: history.mainBookImageURL)
-            bookCountLabel.isHidden = history.bookCount <= 1
-            bookCountLabel.text = "+\(history.bookCount - 1)"
+        guard case let .lastWeekHistory(_, mainBookImageURL, historyCount, date) = cellData else { return }
+        if historyCount > 0 {
+            bookView.apply(imageURL: mainBookImageURL)
+            bookCountLabel.isHidden = historyCount <= 1
+            bookCountLabel.text = "+\(historyCount - 1)"
         } else {
             bookView.apply(imageURL: nil)
             bookCountLabel.isHidden = true

@@ -89,7 +89,7 @@ public enum HomeCellData {
     case todaysBook(historyID: String?, bookImageURL: URL?)
     case divider
     case titleHeader(String)
-    case lastWeekHistory(history: HomeLastWeekHistoryDisplayable?, date: Date)
+    case lastWeekHistory(mainHistoryID: String?, mainBookImageURL: URL?, historyCount: Int, date: Date)
     case todaysPassage(passage: String, historyID: String?)
     
     var cellStyle: HomeCellProtocol.Type {
