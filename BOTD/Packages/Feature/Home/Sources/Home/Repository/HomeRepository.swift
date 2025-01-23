@@ -13,6 +13,7 @@ public protocol HomeRepositoryProtocol {
     func getHistoryOfDate(id: String) -> HistoryOfDate?
     func getHistory(id: String) -> History?
     func getBook(id: String) -> Book?
+    func getPassages() -> [Passage]
 }
 
 public struct HomeRepository: HomeRepositoryProtocol {
@@ -32,5 +33,9 @@ public struct HomeRepository: HomeRepositoryProtocol {
     
     public func getBook(id: String) -> Book? {
         realm.object(ofType: RealmBook.self, forPrimaryKey: id)?.convertToModel()
+    }
+    
+    public func getPassages() -> [Passage] {
+        realm.objects(RealmPassage.self).map({ $0.convertToModel() })
     }
 }

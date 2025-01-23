@@ -50,6 +50,7 @@ public final class HomeViewController: UIViewController {
         
         viewModel.getTodaysHistory()
         viewModel.getLastWeekHistory()
+        viewModel.getTodaysPassage()
     }
     
     private func setupCollectionView() {
