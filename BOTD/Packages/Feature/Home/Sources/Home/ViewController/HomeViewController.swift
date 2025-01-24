@@ -11,7 +11,8 @@ import RxSwift
 import SnapKit
 
 public final class HomeViewController: UIViewController {
-    public init(viewModel: HomeViewModelProtocol) {
+    public init(coordinator: HomeCoordinatorProtocol, viewModel: HomeViewModelProtocol) {
+        self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,6 +21,7 @@ public final class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let coordinator: HomeCoordinatorProtocol
     private let viewModel: HomeViewModelProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
@@ -59,11 +61,25 @@ public final class HomeViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
-        let dataSource = DataSource<HomeSection> { _, collectionView, indexPath, item in
+        let dataSource = DataSource<HomeSection> { [weak self] _, collectionView, indexPath, item in
             let cellID = String(describing: item.cellStyle)
             collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             (cell as? HomeCellProtocol)?.apply(cellData: item)
+            
+            if let cell = cell as? HomeTodaysBookCell,
+               case let .todaysBook(historyID, _) = item {
+                cell.bookViewTappedHandler = { [weak self] in
+                    if let historyID = historyID {
+                        // TODO: 기록 상세 화면으로 이동
+                    } else {
+                        self?.coordinator.presentWriteHistoryVC()
+                    }
+                }
+                cell.addButtonTappedHandler = { [weak self] in
+                    self?.coordinator.presentWriteHistoryVC()
+                }
+            }
             
             return cell
         }

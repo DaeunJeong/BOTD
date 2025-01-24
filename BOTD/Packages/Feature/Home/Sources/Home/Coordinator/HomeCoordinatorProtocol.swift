@@ -1,0 +1,12 @@
+//
+//  HomeCoordinatorProtocol.swift
+//  Home
+//
+//  Created by 정다은 on 1/24/25.
+//
+
+import UIKit
+
+public protocol HomeCoordinatorProtocol {
+    func presentWriteHistoryVC()
+}

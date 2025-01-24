@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C465300E2D437E850068792B /* WriteHistory in Frameworks */ = {isa = PBXBuildFile; productRef = C465300D2D437E850068792B /* WriteHistory */; };
 		C46ED2C32D30DD7100EC0E47 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2C22D30DD7100EC0E47 /* Differentiator */; };
 		C46ED2CB2D30DE8900EC0E47 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2CA2D30DE8900EC0E47 /* Home */; };
 		C46ED2E62D30ED3700EC0E47 /* Extension in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2E52D30ED3700EC0E47 /* Extension */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		C450BD152D3F91BD00140DF1 /* Entity */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Entity; sourceTree = "<group>"; };
+		C46530082D437DBD0068792B /* WriteHistory */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WriteHistory; sourceTree = "<group>"; };
 		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		C46ED2E32D30EC4B00EC0E47 /* Extension */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Extension; sourceTree = "<group>"; };
 		C4D1F7CE2D338FD000F12059 /* CommonUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CommonUI; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C48150032D2CFF4400D602B8 /* RxSwift in Frameworks */,
+				C465300E2D437E850068792B /* WriteHistory in Frameworks */,
 				C4814FFB2D2CFD3000D602B8 /* Kingfisher in Frameworks */,
 				C4814FFE2D2CFD4000D602B8 /* SnapKit in Frameworks */,
 				C48150012D2CFF4400D602B8 /* RxCocoa in Frameworks */,
@@ -117,6 +120,7 @@
 		C46ED2C72D30DE5D00EC0E47 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				C46530082D437DBD0068792B /* WriteHistory */,
 				C46ED2C62D30DE5D00EC0E47 /* Home */,
 			);
 			path = Feature;
@@ -201,6 +205,7 @@
 				C46ED2CA2D30DE8900EC0E47 /* Home */,
 				C46ED2E52D30ED3700EC0E47 /* Extension */,
 				C4D1F7CF2D33900700F12059 /* CommonUI */,
+				C465300D2D437E850068792B /* WriteHistory */,
 			);
 			productName = BOTD;
 			productReference = C4D4440C2D2C0B4500CBC50E /* BOTD.app */;
@@ -698,6 +703,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C465300D2D437E850068792B /* WriteHistory */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WriteHistory;
+		};
 		C46ED2C22D30DD7100EC0E47 /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C48150042D2CFF6A00D602B8 /* XCRemoteSwiftPackageReference "RxDataSources" */;

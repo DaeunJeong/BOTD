@@ -15,8 +15,10 @@ class MainTabBarController: UITabBarController {
         let homeTab = UITab(title: "홈", image: UIImage(systemName: "house"), identifier: "Home") { _ in
             let homeRP = HomeRepository()
             let homeVM = HomeViewModel(repository: homeRP)
-            let homeVC = HomeViewController(viewModel: homeVM)
-            let homeNC = UINavigationController(rootViewController: homeVC)
+            let homeNC = UINavigationController()
+            let homeCD = HomeCoordinator(nav: homeNC)
+            let homeVC = HomeViewController(coordinator: homeCD, viewModel: homeVM)
+            homeNC.viewControllers = [homeVC]
             return homeNC
         }
         tabs = [homeTab]

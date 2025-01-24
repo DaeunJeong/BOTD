@@ -21,6 +21,9 @@ public class HomeTodaysBookCell: UICollectionViewCell, HomeCellProtocol {
         return button
     }()
     
+    public var bookViewTappedHandler: (() -> Void)?
+    public var addButtonTappedHandler: (() -> Void)?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,7 +36,19 @@ public class HomeTodaysBookCell: UICollectionViewCell, HomeCellProtocol {
             make.bottom.equalTo(bookView.snp.bottom)
             make.width.height.equalTo(24)
         }
+        
+        let tapBookViewGesture = UITapGestureRecognizer(target: self, action: #selector(tapBookView))
+        bookView.addGestureRecognizer(tapBookViewGesture)
         addButton.isHidden = true
+        addButton.addTarget(self, action: #selector(tapAddButton), for: .touchUpInside)
+    }
+    
+    @objc private func tapBookView() {
+        bookViewTappedHandler?()
+    }
+    
+    @objc private func tapAddButton() {
+        addButtonTappedHandler?()
     }
     
     required init?(coder: NSCoder) {
