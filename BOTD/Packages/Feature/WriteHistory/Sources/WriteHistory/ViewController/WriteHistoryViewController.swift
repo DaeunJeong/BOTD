@@ -65,11 +65,19 @@ public final class WriteHistoryViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        let dataSource = DataSource<WriteHistorySection> { _, collectionView, indexPath, item in
+        collectionView.keyboardDismissMode = .onDrag
+        
+        let dataSource = DataSource<WriteHistorySection> { [weak self] _, collectionView, indexPath, item in
             let cellID = String(describing: item.cellStyle)
             collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             (cell as? WriteHistoryCellProtocol)?.apply(cellData: item)
+            
+            if let cell = cell as? WriteHistoryInputFieldCell {
+                cell.dateChangedHandler = { [weak self] date in
+                    self?.viewModel.selectDate(date)
+                }
+            }
             
             return cell
         }
@@ -80,10 +88,17 @@ public final class WriteHistoryViewController: UIViewController {
                 .observe(on: MainScheduler.instance)
                 .bind(to: collectionView.rx.items(dataSource: dataSource))
         )
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        collectionView.addGestureRecognizer(tapGesture)
     }
     
     @objc private func tapCloseButton() {
         navigationController?.dismiss(animated: true)
+    }
+    
+    @objc private func tapped() {
+        view.endEditing(true)
     }
     
     private func setupConstraints() {
