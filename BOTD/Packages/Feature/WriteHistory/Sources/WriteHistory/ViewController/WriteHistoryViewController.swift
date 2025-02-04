@@ -39,8 +39,8 @@ public final class WriteHistoryViewController: UIViewController {
     private let completeButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.background.cornerRadius = 8
-        config.background.backgroundColor = .beige500
-        config.attributedTitle = .init("작성 완료", font: .boldSystemFont(ofSize: 16), color: .brown800)
+        config.background.backgroundColor = .beige700
+        config.attributedTitle = .init("작성 완료", font: .boldSystemFont(ofSize: 16), color: .white)
         let button = UIButton(configuration: config)
         return button
     }()
@@ -82,6 +82,22 @@ public final class WriteHistoryViewController: UIViewController {
                     cell.beginEditingHandler = { [weak self] in
                         // TODO: 책 선택 화면으로 이동
                         self?.viewModel.selectBook()
+                    }
+                }
+            } else if let cell = cell as? WriteHistoryMemoEmptyCell {
+                cell.addButtonTappedHandler = { [weak self] in
+                    if case .passageEmpty = item {
+                        self?.viewModel.addPassage("a") // TODO: 구절 작성
+                    } else if case .memoEmpty = item {
+                        self?.viewModel.addMemo("b") // TODO: 메모 작성
+                    }
+                }
+            } else if let cell = cell as? WriteHistoryAddMemoCell {
+                cell.addButtonTappedHandler = { [weak self] in
+                    if case .addPassage = item {
+                        self?.viewModel.addPassage("a") // TODO: 구절 작성
+                    } else if case .addMemo = item {
+                        self?.viewModel.addMemo("b") // TODO: 메모 작성
                     }
                 }
             }
