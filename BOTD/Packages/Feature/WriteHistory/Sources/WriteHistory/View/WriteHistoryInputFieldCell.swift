@@ -12,6 +12,7 @@ public final class WriteHistoryInputFieldCell: UICollectionViewCell, WriteHistor
     private let datePicker = UIDatePicker()
     
     public var dateChangedHandler: ((Date) -> Void)?
+    public var beginEditingHandler: (() -> Void)?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,15 +41,25 @@ public final class WriteHistoryInputFieldCell: UICollectionViewCell, WriteHistor
         if case let .dateInputField(selectedDate) = cellData {
             let dateFormatter = DateFormatter(dateFormat: "yyyy.MM.dd (E)")
             textField.text = dateFormatter.string(from: selectedDate)
+            textField.placeholder = nil
             textField.inputView = datePicker
+        } else if case let .bookTitleInputField(text) = cellData {
+            textField.text = text
+            textField.placeholder = "책 제목을 입력해 주세요"
+            textField.inputView = nil
         }
     }
 }
 
 extension WriteHistoryInputFieldCell: UITextFieldDelegate {
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.inputView == datePicker {
-            dateChangedHandler?(datePicker.date)
+        dateChangedHandler?(datePicker.date)
+    }
+    
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let handler = beginEditingHandler {
+            textField.resignFirstResponder()
+            handler()
         }
     }
 }

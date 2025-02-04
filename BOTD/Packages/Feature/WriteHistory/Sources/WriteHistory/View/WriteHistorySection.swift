@@ -65,11 +65,12 @@ public enum WriteHistoryCellData {
     case titleHeader(String)
     case dateInputField(selectedDate: Date)
     case border
+    case bookTitleInputField(text: String?)
     
     var cellStyle: WriteHistoryCellProtocol.Type {
         switch self {
         case .titleHeader: WriteHistoryTitleHeaderCell.self
-        case .dateInputField: WriteHistoryInputFieldCell.self
+        case .dateInputField, .bookTitleInputField: WriteHistoryInputFieldCell.self
         case .border: WriteHistoryBorderCell.self
         }
     }

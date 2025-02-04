@@ -74,8 +74,15 @@ public final class WriteHistoryViewController: UIViewController {
             (cell as? WriteHistoryCellProtocol)?.apply(cellData: item)
             
             if let cell = cell as? WriteHistoryInputFieldCell {
-                cell.dateChangedHandler = { [weak self] date in
-                    self?.viewModel.selectDate(date)
+                if case .dateInputField = item {
+                    cell.dateChangedHandler = { [weak self] date in
+                        self?.viewModel.selectDate(date)
+                    }
+                } else if case .bookTitleInputField = item {
+                    cell.beginEditingHandler = { [weak self] in
+                        // TODO: 책 선택 화면으로 이동
+                        self?.viewModel.selectBook()
+                    }
                 }
             }
             
