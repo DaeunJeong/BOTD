@@ -1,0 +1,10 @@
+//
+//  WriteHistoryCoordinatorProtocol.swift
+//  WriteHistory
+//
+//  Created by 정다은 on 2/5/25.
+//
+
+public protocol WriteHistoryCoordinatorProtocol {
+    func pushSearchBookVC()
+}

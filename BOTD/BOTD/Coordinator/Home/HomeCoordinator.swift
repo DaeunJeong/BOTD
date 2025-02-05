@@ -17,9 +17,11 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     }
     
     func presentWriteHistoryVC() {
+        let writeHistoryNC = UINavigationController()
         let writeHistoryVM = WriteHistoryViewModel()
-        let writeHistoryVC = WriteHistoryViewController(viewModel: writeHistoryVM)
-        let writeHistoryNC = UINavigationController(rootViewController: writeHistoryVC)
+        let writeHistoryCD = WriteHistoryCoordinator(nav: writeHistoryNC)
+        let writeHistoryVC = WriteHistoryViewController(coordinator: writeHistoryCD, viewModel: writeHistoryVM)
+        writeHistoryNC.viewControllers = [writeHistoryVC]
         writeHistoryNC.modalPresentationStyle = .fullScreen
         nav?.present(writeHistoryNC, animated: true)
     }

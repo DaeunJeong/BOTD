@@ -12,7 +12,8 @@ import SnapKit
 import Extension
 
 public final class WriteHistoryViewController: UIViewController {
-    public init(viewModel: WriteHistoryViewModelProtocol) {
+    public init(coordinator: WriteHistoryCoordinatorProtocol, viewModel: WriteHistoryViewModelProtocol) {
+        self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -21,6 +22,7 @@ public final class WriteHistoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let coordinator: WriteHistoryCoordinatorProtocol
     private let viewModel: WriteHistoryViewModelProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
@@ -80,8 +82,7 @@ public final class WriteHistoryViewController: UIViewController {
                     }
                 } else if case .bookTitleInputField = item {
                     cell.beginEditingHandler = { [weak self] in
-                        // TODO: 책 선택 화면으로 이동
-                        self?.viewModel.selectBook()
+                        self?.moveToSelectBook()
                     }
                 }
             } else if let cell = cell as? WriteHistoryMemoEmptyCell {
@@ -122,6 +123,11 @@ public final class WriteHistoryViewController: UIViewController {
     
     @objc private func tapped() {
         view.endEditing(true)
+    }
+    
+    private func moveToSelectBook() {
+        coordinator.pushSearchBookVC()
+        viewModel.selectBook()
     }
     
     private func setupConstraints() {
