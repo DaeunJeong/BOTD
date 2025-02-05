@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class WriteHistoryMemoCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryMemoCell: UICollectionViewCell, WriteHistoryCellProtocol {
     private let containerView = UIView(backgroundColor: .white)
     private let topMarksLabel = UILabel(font: .systemFont(ofSize: 16, weight: .semibold), textColor: .black, text: "“")
     private let textLabel = UILabel(font: .systemFont(ofSize: 12, weight: .medium), textColor: .black)

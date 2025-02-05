@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCellProtocol {
     private let addButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12))?

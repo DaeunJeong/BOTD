@@ -16,7 +16,8 @@ final class WriteHistoryCoordinator: WriteHistoryCoordinatorProtocol {
     }
     
     func pushSearchBookVC() {
-        let vc = SearchBookViewController()
+        let vm = SearchBookViewModel()
+        let vc = SearchBookViewController(viewModel: vm)
         nav?.pushViewController(vc, animated: true)
     }
 }

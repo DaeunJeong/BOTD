@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class WriteHistoryMemoEmptyCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryMemoEmptyCell: UICollectionViewCell, WriteHistoryCellProtocol {
     private let titleLabel = UILabel(font: .systemFont(ofSize: 14, weight: .medium), textColor: .black)
     private let addButton: UIButton = {
         var config = UIButton.Configuration.plain()

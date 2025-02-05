@@ -80,10 +80,12 @@ public final class WriteHistoryViewController: UIViewController {
                     cell.dateChangedHandler = { [weak self] date in
                         self?.viewModel.selectDate(date)
                     }
+                    cell.beginEditingHandler = nil
                 } else if case .bookTitleInputField = item {
                     cell.beginEditingHandler = { [weak self] in
                         self?.moveToSelectBook()
                     }
+                    cell.dateChangedHandler = nil
                 }
             } else if let cell = cell as? WriteHistoryMemoEmptyCell {
                 cell.addButtonTappedHandler = { [weak self] in
