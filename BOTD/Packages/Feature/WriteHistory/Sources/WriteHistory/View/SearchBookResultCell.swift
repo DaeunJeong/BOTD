@@ -60,6 +60,7 @@ public final class SearchBookResultCell: UICollectionViewCell, SearchBookCellPro
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.leading.equalTo(coverImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().offset(-16)
         }
         authorLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)

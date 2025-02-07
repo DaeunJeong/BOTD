@@ -47,6 +47,7 @@ public final class SearchBookViewController: UIViewController {
         collectionView.contentInsetAdjustmentBehavior = .never
         return collectionView
     }()
+    private let indicator = UIActivityIndicatorView(style: .medium)
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -66,10 +67,11 @@ public final class SearchBookViewController: UIViewController {
         
         title = "책 검색"
         view.backgroundColor = .white
-        view.addSubviews(searchTextField, borderView, collectionView)
+        view.addSubviews(searchTextField, borderView, collectionView, indicator)
         
         setupConstraints()
         setupCollectionView()
+        setupBindings()
     }
     
     private func setupCollectionView() {
@@ -95,6 +97,35 @@ public final class SearchBookViewController: UIViewController {
         collectionView.addGestureRecognizer(tapGesture)
     }
     
+    private func setupBindings() {
+        disposeBag.insert(
+            searchTextField.rx.text
+                .bind(to: viewModel.searchQuery),
+            searchTextField.rx.text
+                .debounce(.seconds(1), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .bind(onNext: { [weak self] _ in
+                    self?.search()
+                }),
+            viewModel.isShownIndicator
+                .observe(on: MainScheduler.instance)
+                .bind(to: indicator.rx.isAnimating),
+            viewModel.errorOccured
+                .observe(on: MainScheduler.instance)
+                .bind(onNext: { [weak self] in
+                    let alert = UIAlertController(title: "오류 발생", message: "결과를 불러오는데 실패하였습니다", preferredStyle: .alert)
+                    alert.addAction(.init(title: "확인", style: .default))
+                    self?.present(alert, animated: true)
+                })
+        )
+    }
+    
+    private func search(isPagination: Bool = false) {
+        Task { @MainActor [viewModel] in
+            await viewModel.search(isPagination: isPagination)
+        }
+    }
+    
     @objc private func tapBackButton() {
         navigationController?.popViewController(animated: true)
     }
@@ -118,5 +149,6 @@ public final class SearchBookViewController: UIViewController {
             make.top.equalTo(searchTextField.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        indicator.snp.makeConstraints({ $0.center.equalToSuperview() })
     }
 }

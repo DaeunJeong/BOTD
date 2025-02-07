@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Service
 import WriteHistory
 
 final class WriteHistoryCoordinator: WriteHistoryCoordinatorProtocol {
@@ -16,7 +17,8 @@ final class WriteHistoryCoordinator: WriteHistoryCoordinatorProtocol {
     }
     
     func pushSearchBookVC() {
-        let vm = SearchBookViewModel()
+        let rp = SearchBookRepository(service: AladinService())
+        let vm = SearchBookViewModel(repository: rp)
         let vc = SearchBookViewController(viewModel: vm)
         nav?.pushViewController(vc, animated: true)
     }
