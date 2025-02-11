@@ -6,5 +6,5 @@
 //
 
 public protocol WriteHistoryCoordinatorProtocol {
-    func pushSearchBookVC()
+    func pushSearchBookVC(bookSelectedHandler: @escaping (SearchBookResultDisplayable) -> Void)
 }

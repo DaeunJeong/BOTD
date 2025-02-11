@@ -128,8 +128,9 @@ public final class WriteHistoryViewController: UIViewController {
     }
     
     private func moveToSelectBook() {
-        coordinator.pushSearchBookVC()
-        viewModel.selectBook()
+        coordinator.pushSearchBookVC(bookSelectedHandler: { [weak self] book in
+            self?.viewModel.selectBook(book)
+        })
     }
     
     private func setupConstraints() {

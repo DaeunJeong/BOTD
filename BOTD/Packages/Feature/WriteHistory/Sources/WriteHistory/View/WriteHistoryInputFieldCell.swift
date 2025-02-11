@@ -20,6 +20,7 @@ public final class WriteHistoryInputFieldCell: UICollectionViewCell, WriteHistor
         contentView.addSubview(textField)
         textField.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(16)
+            make.trailing.lessThanOrEqualToSuperview().offset(-16)
             make.bottom.equalToSuperview().offset(-16)
         }
         textField.delegate = self

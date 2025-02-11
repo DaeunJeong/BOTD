@@ -23,6 +23,7 @@ public final class SearchBookViewController: UIViewController {
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
     private var dataSource: DataSource<SearchBookSection>?
+    public var bookSelectedHandler: ((SearchBookResultDisplayable) -> Void)?
     
     private let searchTextField: UITextField = {
         let textField = UITextField()
@@ -95,10 +96,17 @@ public final class SearchBookViewController: UIViewController {
                 .filter({ $0.cell is SearchBookLoadingCell })
                 .bind(onNext: { [weak self] _ in
                     self?.search(isPagination: true)
+                }),
+            collectionView.rx.modelSelected(SearchBookCelData.self)
+                .bind(onNext: { [weak self] item in
+                    guard case let .result(book) = item else { return }
+                    self?.bookSelectedHandler?(book)
+                    self?.navigationController?.popViewController(animated: true)
                 })
         )
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        tapGesture.cancelsTouchesInView = false
         collectionView.addGestureRecognizer(tapGesture)
     }
     

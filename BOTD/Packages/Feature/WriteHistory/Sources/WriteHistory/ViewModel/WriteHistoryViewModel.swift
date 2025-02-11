@@ -13,7 +13,7 @@ public protocol WriteHistoryViewModelProtocol {
     var sections: Observable<[WriteHistorySection]> { get }
     
     func selectDate(_ date: Date)
-    func selectBook()
+    func selectBook(_ book: SearchBookResultDisplayable)
     func addPassage(_ passage: String)
     func addMemo(_ memo: String)
 }
@@ -58,8 +58,8 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
         selectedDate.accept(date)
     }
     
-    public func selectBook() {
-        bookTitle.accept("책 제목")
+    public func selectBook(_ book: SearchBookResultDisplayable) {
+        bookTitle.accept(book.title)
     }
     
     public func addPassage(_ passage: String) {

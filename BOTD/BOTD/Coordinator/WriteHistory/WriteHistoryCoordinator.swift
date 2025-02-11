@@ -16,10 +16,11 @@ final class WriteHistoryCoordinator: WriteHistoryCoordinatorProtocol {
         self.nav = nav
     }
     
-    func pushSearchBookVC() {
+    func pushSearchBookVC(bookSelectedHandler: @escaping (SearchBookResultDisplayable) -> Void) {
         let rp = SearchBookRepository(service: AladinService())
         let vm = SearchBookViewModel(repository: rp)
         let vc = SearchBookViewController(viewModel: vm)
+        vc.bookSelectedHandler = bookSelectedHandler
         nav?.pushViewController(vc, animated: true)
     }
 }
