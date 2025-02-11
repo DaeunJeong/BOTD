@@ -8,6 +8,7 @@
 import Foundation
 
 public struct AladinBook: Decodable {
+    public let id: String
     public let title: String
     public let author: String
     public let description: String
@@ -16,6 +17,7 @@ public struct AladinBook: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case title, author, description, publisher
+        case id = "isbn"
         case coverImageURL = "cover"
     }
 }

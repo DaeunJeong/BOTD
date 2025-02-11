@@ -9,6 +9,7 @@ import UIKit
 import Kingfisher
 
 public protocol SearchBookResultDisplayable {
+    var id: String { get }
     var title: String { get }
     var author: String { get }
     var publisher: String { get }
@@ -30,8 +31,10 @@ public final class SearchBookResultCell: UICollectionViewCell, SearchBookCellPro
         contentView.addSubviews(coverImageView, titleLabel, authorLabel, publisherLabel, descriptionLabel, borderView)
         
         setupConstraints()
-        coverImageView.contentMode = .scaleAspectFit
+        coverImageView.contentMode = .scaleAspectFill
         coverImageView.layer.cornerRadius = 6
+        coverImageView.layer.borderColor = UIColor.gray400.cgColor
+        coverImageView.layer.borderWidth = 1
         coverImageView.clipsToBounds = true
         descriptionLabel.numberOfLines = 2
     }

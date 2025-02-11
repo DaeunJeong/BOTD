@@ -26,6 +26,7 @@ public struct SearchBookViewModel: SearchBookViewModelProtocol {
     private let bookResults = BehaviorRelay<[AladinBook]>(value: [])
     private let needToPagination = BehaviorRelay<Bool>(value: false)
     private let isRequesting = BehaviorRelay<Bool>(value: false)
+    private let isNeededToShowIndicator = BehaviorRelay<Bool>(value: false)
     private let page = BehaviorRelay<Int>(value: 1)
     private let limit: Int = 10
     private let error = PublishRelay<Error>()
@@ -43,34 +44,40 @@ public struct SearchBookViewModel: SearchBookViewModelProtocol {
                         return [.empty([.empty(title: "검색 결과가 없습니다")])]
                     } else {
                         return [.results(bookResults.map({ .result($0) }))]
+                            + (needToPagination ? [.loading([.loading])] : [])
                     }
                 } else {
                     return [.empty([.empty(title: "검색어를 입력해 주세요")])]
                 }
             })
-        isShownIndicator = isRequesting.asObservable()
+        isShownIndicator = isNeededToShowIndicator.asObservable()
         errorOccured = error.map({ _ in })
     }
     
-    public func search(isPagination: Bool) async { // TODO: pagination
+    public func search(isPagination: Bool) async {
         guard !isRequesting.value,
               let searchQuery = searchQuery.value, !searchQuery.isEmpty else { return }
         isRequesting.accept(true)
-        if isPagination {
-            page.accept(page.value + 1)
+        if !isPagination {
+            isNeededToShowIndicator.accept(true)
         }
+        page.accept(isPagination ? (page.value + 1) : 1)
+        
         do {
             let books = try await repository.getBooks(searchQuery: searchQuery, page: page.value)
             if isPagination {
                 bookResults.accept(bookResults.value + books)
-                needToPagination.accept(books.count == limit)
             } else {
                 bookResults.accept(books)
             }
+            needToPagination.accept(books.count == limit)
         } catch {
-            self.error.accept(error)
+            if !isPagination {
+                self.error.accept(error)
+            }
         }
         isRequesting.accept(false)
+        isNeededToShowIndicator.accept(false)
     }
 }
 

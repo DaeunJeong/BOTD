@@ -90,7 +90,12 @@ public final class SearchBookViewController: UIViewController {
         disposeBag.insert(
             viewModel.sections
                 .observe(on: MainScheduler.instance)
-                .bind(to: collectionView.rx.items(dataSource: dataSource))
+                .bind(to: collectionView.rx.items(dataSource: dataSource)),
+            collectionView.rx.willDisplayCell
+                .filter({ $0.cell is SearchBookLoadingCell })
+                .bind(onNext: { [weak self] _ in
+                    self?.search(isPagination: true)
+                })
         )
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))

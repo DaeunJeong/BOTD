@@ -24,7 +24,7 @@ public final class AladinService: AladinServiceProtocol {
                               parameters: ["TTBKey": ttbKey, "Query": searchQuery, "Start": page, "Output": "JS"])
         let responseData = try await NetworkManager.shared.request(request: request)
         guard let json = try? JSONSerialization.jsonObject(with: responseData) as? [String: Any],
-              let bookJSON = json["item"] as? [[String: Any]] else { throw URLError(.cannotParseResponse) }
+              let bookJSON = json["item"] as? [[String: Any]] else { return [] }
         let books = try JSONDecoder().decode([AladinBook].self, json: bookJSON)
         return books
     }
