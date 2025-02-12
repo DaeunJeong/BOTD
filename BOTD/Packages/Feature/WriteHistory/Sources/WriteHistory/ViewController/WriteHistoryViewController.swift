@@ -44,6 +44,14 @@ public final class WriteHistoryViewController: UIViewController {
         config.background.backgroundColor = .beige700
         config.attributedTitle = .init("작성 완료", font: .boldSystemFont(ofSize: 16), color: .white)
         let button = UIButton(configuration: config)
+        button.configurationUpdateHandler = { button in
+            switch button.state {
+            case .disabled:
+                button.configuration?.background.backgroundColor = .beige500
+            default:
+                button.configuration?.background.backgroundColor = .beige700
+            }
+        }
         return button
     }()
     
@@ -61,9 +69,11 @@ public final class WriteHistoryViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubviews(collectionView, completeButton)
+        completeButton.addTarget(self, action: #selector(tapCompleteButton), for: .touchUpInside)
         
         setupConstraints()
         setupCollectionView()
+        setupBindings()
     }
     
     private func setupCollectionView() {
@@ -127,12 +137,28 @@ public final class WriteHistoryViewController: UIViewController {
         collectionView.addGestureRecognizer(tapGesture)
     }
     
+    private func setupBindings() {
+        viewModel.isEnabledToComplete
+            .observe(on: MainScheduler.instance)
+            .bind(to: completeButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+    }
+    
     @objc private func tapCloseButton() {
         navigationController?.dismiss(animated: true)
     }
     
     @objc private func tapped() {
         view.endEditing(true)
+    }
+    
+    @objc private func tapCompleteButton() {
+        viewModel.writeHistory()
+        let alert = UIAlertController(title: "작성 완료", message: "기록이 작성되었습니다", preferredStyle: .alert)
+        alert.addAction(.init(title: "확인", style: .default, handler: { [weak self] _ in
+            self?.navigationController?.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
     }
     
     private func moveToSelectBook() {

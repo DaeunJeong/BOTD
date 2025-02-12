@@ -19,6 +19,10 @@ public class RealmPassage: Object {
     @Persisted var text: String = ""
     @Persisted var historyID: String = ""
     
+    public convenience init(id: String, text: String, historyID: String) {
+        self.init(value: [id, text, historyID])
+    }
+    
     public func convertToModel() -> Passage {
         return Passage(id: id, text: text, historyID: historyID)
     }

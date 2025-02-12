@@ -9,12 +9,12 @@ import Foundation
 import RealmSwift
 
 public struct HistoryOfDate {
-    public let id: String
+    public let id: String // yyyyMMdd
     public let historyIDs: [String]
 }
 
 public class RealmHistoryOfDate: Object {
-    @Persisted(primaryKey: true) var id: String = ""
+    @Persisted(primaryKey: true) var id: String = "" // yyyyMMdd
     @Persisted var historyIDs = List<String>()
     
     public convenience init(id: String, historyIDs: [String]) {

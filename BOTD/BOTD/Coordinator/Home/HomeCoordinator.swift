@@ -18,7 +18,8 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     
     func presentWriteHistoryVC() {
         let writeHistoryNC = UINavigationController()
-        let writeHistoryVM = WriteHistoryViewModel()
+        let writeHistoryRP = WriteHistoryRepository()
+        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP)
         let writeHistoryCD = WriteHistoryCoordinator(nav: writeHistoryNC)
         let writeHistoryVC = WriteHistoryViewController(coordinator: writeHistoryCD, viewModel: writeHistoryVM)
         writeHistoryNC.viewControllers = [writeHistoryVC]

@@ -11,6 +11,7 @@ import RxSwift
 
 public protocol WriteHistoryViewModelProtocol {
     var sections: Observable<[WriteHistorySection]> { get }
+    var isEnabledToComplete: Observable<Bool> { get }
     
     func selectDate(_ date: Date)
     func selectBook(_ book: SearchBookResultDisplayable)
@@ -18,24 +19,28 @@ public protocol WriteHistoryViewModelProtocol {
     func deletePassage(index: Int)
     func addMemo(_ memo: String)
     func deleteMemo(index: Int)
+    func writeHistory()
 }
 
 public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
+    private let repository: WriteHistoryRepositoryProtocol
     private let selectedDate = BehaviorRelay<Date>(value: Date())
-    private let bookTitle = BehaviorRelay<String?>(value: nil)
+    private let selectedBook = BehaviorRelay<SearchBookResultDisplayable?>(value: nil)
     private let passageList = BehaviorRelay<[String]>(value: [])
     private let memoList = BehaviorRelay<[String]>(value: [])
     
     public let sections: Observable<[WriteHistorySection]>
+    public let isEnabledToComplete: Observable<Bool>
     
-    public init() {
-        sections = Observable.combineLatest(selectedDate, bookTitle, passageList, memoList)
-            .map({ selectedDate, bookTitle, passageList, memoList in
+    public init(repository: WriteHistoryRepositoryProtocol) {
+        self.repository = repository
+        sections = Observable.combineLatest(selectedDate, selectedBook, passageList, memoList)
+            .map({ selectedDate, selectedBook, passageList, memoList in
                 var sections: [WriteHistorySection] = [.titleHeader([.titleHeader("날짜")]),
                                                        .inputField([.dateInputField(selectedDate: selectedDate)]),
                                                        .border([.border]),
                                                        .titleHeader([.titleHeader("책 제목")]),
-                                                       .inputField([.bookTitleInputField(text: bookTitle)]),
+                                                       .inputField([.bookTitleInputField(text: selectedBook?.title)]),
                                                        .border([.border]),
                                                        .titleHeader([.titleHeader("기억에 남는 구절")])]
                 if passageList.isEmpty {
@@ -54,6 +59,8 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
                 
                 return sections
             })
+        isEnabledToComplete = Observable.combineLatest(selectedBook, passageList, memoList)
+            .map({ $0 != nil && (!$1.isEmpty || !$2.isEmpty) })
     }
     
     public func selectDate(_ date: Date) {
@@ -61,7 +68,7 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
     }
     
     public func selectBook(_ book: SearchBookResultDisplayable) {
-        bookTitle.accept(book.title)
+        selectedBook.accept(book)
     }
     
     public func addPassage(_ passage: String) {
@@ -82,5 +89,10 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
         var memoList = memoList.value
         memoList.remove(at: index)
         self.memoList.accept(memoList)
+    }
+    
+    public func writeHistory() {
+        guard let book = selectedBook.value else { return }
+        repository.writeHistory(date: selectedDate.value, book: book, memoList: memoList.value, passageList: passageList.value)
     }
 }

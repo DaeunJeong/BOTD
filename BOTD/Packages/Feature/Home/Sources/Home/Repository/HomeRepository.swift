@@ -17,7 +17,7 @@ public protocol HomeRepositoryProtocol {
 }
 
 public struct HomeRepository: HomeRepositoryProtocol {
-    let realm: Realm
+    private let realm: Realm
     
     public init(realm: Realm = try! Realm()) {
         self.realm = realm
