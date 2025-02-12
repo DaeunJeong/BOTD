@@ -12,15 +12,28 @@ public final class WriteHistoryMemoCell: UICollectionViewCell, WriteHistoryCellP
     private let topMarksLabel = UILabel(font: .systemFont(ofSize: 16, weight: .semibold), textColor: .black, text: "“")
     private let textLabel = UILabel(font: .systemFont(ofSize: 12, weight: .medium), textColor: .black)
     private let bottomMarksLabel = UILabel(font: .systemFont(ofSize: 16, weight: .semibold), textColor: .black, text: "”")
+    private let deleteButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "minus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12))?
+            .withTintColor(.brown400, renderingMode: .alwaysOriginal)
+        config.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
+        let button = UIButton(configuration: config)
+        return button
+    }()
+    
+    public var deleteButtonTappedHandler: (() -> Void)?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.addSubview(containerView)
+        contentView.addSubviews(containerView, deleteButton)
         containerView.addSubviews(topMarksLabel, textLabel, bottomMarksLabel)
         
         containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-8)
         }
         topMarksLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(8)
@@ -34,6 +47,10 @@ public final class WriteHistoryMemoCell: UICollectionViewCell, WriteHistoryCellP
             make.trailing.equalToSuperview().offset(-8)
             make.bottom.equalToSuperview().offset(-12)
         }
+        deleteButton.snp.makeConstraints { make in
+            make.top.equalTo(containerView.snp.top).offset(-8)
+            make.trailing.equalTo(containerView.snp.trailing).offset(8)
+        }
         
         containerView.layer.cornerRadius = 8
         containerView.layer.borderColor = UIColor.gray400.cgColor
@@ -46,10 +63,15 @@ public final class WriteHistoryMemoCell: UICollectionViewCell, WriteHistoryCellP
         containerView.layer.masksToBounds = false
         textLabel.textAlignment = .center
         textLabel.numberOfLines = 6
+        deleteButton.addTarget(self, action: #selector(tapDeleteButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func tapDeleteButton() {
+        deleteButtonTappedHandler?()
     }
     
     public func apply(cellData: WriteHistoryCellData) {

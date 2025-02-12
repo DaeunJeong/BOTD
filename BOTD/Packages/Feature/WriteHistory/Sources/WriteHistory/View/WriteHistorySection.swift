@@ -47,12 +47,11 @@ public enum WriteHistorySection {
             let section = NSCollectionLayoutSection(group: group)
             return section
         case .memos:
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(210), heightDimension: .absolute(140)))
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(210), heightDimension: .absolute(140))
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(242), heightDimension: .absolute(156)))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(242), heightDimension: .absolute(156))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: 8, leading: 16, bottom: 24, trailing: 16)
-            section.interGroupSpacing = 10
+            section.contentInsets = .init(top: 0, leading: 8, bottom: 16, trailing: 8)
             section.orthogonalScrollingBehavior = .continuous
             return section
         case .memoEmpty:

@@ -103,6 +103,14 @@ public final class WriteHistoryViewController: UIViewController {
                         self?.moveToWriteMemo()
                     }
                 }
+            } else if let cell = cell as? WriteHistoryMemoCell {
+                cell.deleteButtonTappedHandler = { [weak self] in
+                    if case .passage = item {
+                        self?.viewModel.deletePassage(index: indexPath.item)
+                    } else if case .memo = item {
+                        self?.viewModel.deleteMemo(index: indexPath.item)
+                    }
+                }
             }
             
             return cell

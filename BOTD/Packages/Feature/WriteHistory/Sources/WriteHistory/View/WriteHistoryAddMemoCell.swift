@@ -25,7 +25,10 @@ public final class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCe
         contentView.addSubview(addButton)
         
         addButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-8)
         }
         
         addButton.layer.cornerRadius = 8

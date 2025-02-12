@@ -15,7 +15,9 @@ public protocol WriteHistoryViewModelProtocol {
     func selectDate(_ date: Date)
     func selectBook(_ book: SearchBookResultDisplayable)
     func addPassage(_ passage: String)
+    func deletePassage(index: Int)
     func addMemo(_ memo: String)
+    func deleteMemo(index: Int)
 }
 
 public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
@@ -66,7 +68,19 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
         passageList.accept(passageList.value + [passage])
     }
     
+    public func deletePassage(index: Int) {
+        var passageList = passageList.value
+        passageList.remove(at: index)
+        self.passageList.accept(passageList)
+    }
+    
     public func addMemo(_ memo: String) {
         memoList.accept(memoList.value + [memo])
+    }
+    
+    public func deleteMemo(index: Int) {
+        var memoList = memoList.value
+        memoList.remove(at: index)
+        self.memoList.accept(memoList)
     }
 }
