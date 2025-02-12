@@ -90,17 +90,17 @@ public final class WriteHistoryViewController: UIViewController {
             } else if let cell = cell as? WriteHistoryMemoEmptyCell {
                 cell.addButtonTappedHandler = { [weak self] in
                     if case .passageEmpty = item {
-                        self?.viewModel.addPassage("a") // TODO: 구절 작성
+                        self?.moveToWritePassage()
                     } else if case .memoEmpty = item {
-                        self?.viewModel.addMemo("b") // TODO: 메모 작성
+                        self?.moveToWriteMemo()
                     }
                 }
             } else if let cell = cell as? WriteHistoryAddMemoCell {
                 cell.addButtonTappedHandler = { [weak self] in
                     if case .addPassage = item {
-                        self?.viewModel.addPassage("a") // TODO: 구절 작성
+                        self?.moveToWritePassage()
                     } else if case .addMemo = item {
-                        self?.viewModel.addMemo("b") // TODO: 메모 작성
+                        self?.moveToWriteMemo()
                     }
                 }
             }
@@ -130,6 +130,18 @@ public final class WriteHistoryViewController: UIViewController {
     private func moveToSelectBook() {
         coordinator.pushSearchBookVC(bookSelectedHandler: { [weak self] book in
             self?.viewModel.selectBook(book)
+        })
+    }
+    
+    private func moveToWritePassage() {
+        coordinator.pushWriteMemoVC(title: "구절 작성", completeHandler: { [weak self] passage in
+            self?.viewModel.addPassage(passage)
+        })
+    }
+    
+    private func moveToWriteMemo() {
+        coordinator.pushWriteMemoVC(title: "메모 작성", completeHandler: { [weak self] memo in
+            self?.viewModel.addMemo(memo)
         })
     }
     

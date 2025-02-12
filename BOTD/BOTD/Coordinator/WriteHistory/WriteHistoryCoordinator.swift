@@ -23,4 +23,9 @@ final class WriteHistoryCoordinator: WriteHistoryCoordinatorProtocol {
         vc.bookSelectedHandler = bookSelectedHandler
         nav?.pushViewController(vc, animated: true)
     }
+    
+    func pushWriteMemoVC(title: String, completeHandler: @escaping (String) -> Void) {
+        let vc = WriteMemoViewController(title: title, completeHandler: completeHandler)
+        nav?.pushViewController(vc, animated: true)
+    }
 }
