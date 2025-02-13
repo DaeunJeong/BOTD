@@ -38,9 +38,9 @@ public struct HomeViewModel: HomeViewModelProtocol {
                 if let todayHistoryID = historyOfDates[todayString]?.historyIDs.first,
                    let todayHistory = histories[todayHistoryID],
                    let todayBook = books[todayHistory.bookID] {
-                    sections += [.todaysBook([.todaysBook(historyID: todayHistoryID, bookImageURL: todayBook.imageURL)])]
+                    sections += [.todaysBook([.todaysBook(historyOfDateID: todayString, bookImageURL: todayBook.imageURL)])]
                 } else {
-                    sections += [.todaysBook([.todaysBook(historyID: nil, bookImageURL: nil)])]
+                    sections += [.todaysBook([.todaysBook(historyOfDateID: nil, bookImageURL: nil)])]
                 }
                 
                 let lastWeekHistories = Array(1...7).map({
@@ -54,10 +54,10 @@ public struct HomeViewModel: HomeViewModelProtocol {
                         } else {
                             nil
                         }
-                        return HomeCellData.lastWeekHistory(mainHistoryID: mainHistoryID, mainBookImageURL: mainBookImageURL,
+                        return HomeCellData.lastWeekHistory(historyOfDateID: dateString, mainBookImageURL: mainBookImageURL,
                                                             historyCount: historyOfDate.historyIDs.count, date: date)
                     } else {
-                        return HomeCellData.lastWeekHistory(mainHistoryID: nil, mainBookImageURL: nil, historyCount: 0, date: date)
+                        return HomeCellData.lastWeekHistory(historyOfDateID: nil, mainBookImageURL: nil, historyCount: 0, date: date)
                     }
                 })
                 

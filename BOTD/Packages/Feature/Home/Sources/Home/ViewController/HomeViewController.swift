@@ -68,10 +68,10 @@ public final class HomeViewController: UIViewController {
             (cell as? HomeCellProtocol)?.apply(cellData: item)
             
             if let cell = cell as? HomeTodaysBookCell,
-               case let .todaysBook(historyID, _) = item {
+               case let .todaysBook(historyOfDateID, _) = item {
                 cell.bookViewTappedHandler = { [weak self] in
-                    if let historyID = historyID {
-                        // TODO: 기록 상세 화면으로 이동
+                    if let historyOfDateID = historyOfDateID {
+                        self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID)
                     } else {
                         self?.coordinator.presentWriteHistoryVC(defaultDate: Date())
                     }
@@ -91,9 +91,9 @@ public final class HomeViewController: UIViewController {
                 .bind(to: collectionView.rx.items(dataSource: dataSource)),
             collectionView.rx.modelSelected(HomeCellData.self)
                 .bind(onNext: { [weak self] item in
-                    if case let .lastWeekHistory(mainHistoryID, _, _, date) = item {
-                        if let historyID = mainHistoryID {
-                            // TODO: 기록 상세 화면으로 이동
+                    if case let .lastWeekHistory(historyOfDateID, _, _, date) = item {
+                        if let historyOfDateID = historyOfDateID {
+                            self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID)
                         } else {
                             self?.coordinator.presentWriteHistoryVC(defaultDate: date)
                         }

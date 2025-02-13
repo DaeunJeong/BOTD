@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import HistoryDetail
 import Home
 import WriteHistory
 
@@ -25,5 +26,15 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         writeHistoryNC.viewControllers = [writeHistoryVC]
         writeHistoryNC.modalPresentationStyle = .fullScreen
         nav?.present(writeHistoryNC, animated: true)
+    }
+    
+    func presentHistoryDetailVC(historyOfDateID: String) {
+        let nc = UINavigationController()
+        let rp = HistoryDetailRepository()
+        let vm = HistoryDetailViewModel(repository: rp)
+        let vc = HistoryDetailViewController(viewModel: vm)
+        nc.viewControllers = [vc]
+        nc.modalPresentationStyle = .fullScreen
+        nav?.present(nc, animated: true)
     }
 }

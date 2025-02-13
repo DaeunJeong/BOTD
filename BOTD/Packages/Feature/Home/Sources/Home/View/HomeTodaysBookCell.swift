@@ -56,9 +56,9 @@ public class HomeTodaysBookCell: UICollectionViewCell, HomeCellProtocol {
     }
     
     public func apply(cellData: HomeCellData) {
-        guard case let .todaysBook(historyID, bookImageURL) = cellData else { return }
+        guard case let .todaysBook(historyOfDateID, bookImageURL) = cellData else { return }
         
-        if historyID != nil, let bookImageURL = bookImageURL {
+        if historyOfDateID != nil, let bookImageURL = bookImageURL {
             bookView.apply(imageURL: bookImageURL)
             addButton.isHidden = false
         } else {

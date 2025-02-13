@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C434E2EB2D5DF6E6007B45CC /* HistoryDetail in Frameworks */ = {isa = PBXBuildFile; productRef = C434E2EA2D5DF6E6007B45CC /* HistoryDetail */; };
 		C465300E2D437E850068792B /* WriteHistory in Frameworks */ = {isa = PBXBuildFile; productRef = C465300D2D437E850068792B /* WriteHistory */; };
 		C46ED2C32D30DD7100EC0E47 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2C22D30DD7100EC0E47 /* Differentiator */; };
 		C46ED2CB2D30DE8900EC0E47 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = C46ED2CA2D30DE8900EC0E47 /* Home */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C434E2E92D5DF668007B45CC /* HistoryDetail */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HistoryDetail; sourceTree = "<group>"; };
 		C450BD152D3F91BD00140DF1 /* Entity */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Entity; sourceTree = "<group>"; };
 		C46530082D437DBD0068792B /* WriteHistory */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WriteHistory; sourceTree = "<group>"; };
 		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				C465300E2D437E850068792B /* WriteHistory in Frameworks */,
 				C4814FFB2D2CFD3000D602B8 /* Kingfisher in Frameworks */,
 				C4814FFE2D2CFD4000D602B8 /* SnapKit in Frameworks */,
+				C434E2EB2D5DF6E6007B45CC /* HistoryDetail in Frameworks */,
 				C48150012D2CFF4400D602B8 /* RxCocoa in Frameworks */,
 				C46ED2E62D30ED3700EC0E47 /* Extension in Frameworks */,
 				C4BC54F32D5602E6003BFE77 /* Service in Frameworks */,
@@ -124,6 +127,7 @@
 		C46ED2C72D30DE5D00EC0E47 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				C434E2E92D5DF668007B45CC /* HistoryDetail */,
 				C46530082D437DBD0068792B /* WriteHistory */,
 				C46ED2C62D30DE5D00EC0E47 /* Home */,
 			);
@@ -213,6 +217,7 @@
 				C4D1F7CF2D33900700F12059 /* CommonUI */,
 				C465300D2D437E850068792B /* WriteHistory */,
 				C4BC54F22D5602E6003BFE77 /* Service */,
+				C434E2EA2D5DF6E6007B45CC /* HistoryDetail */,
 			);
 			productName = BOTD;
 			productReference = C4D4440C2D2C0B4500CBC50E /* BOTD.app */;
@@ -710,6 +715,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C434E2EA2D5DF6E6007B45CC /* HistoryDetail */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HistoryDetail;
+		};
 		C465300D2D437E850068792B /* WriteHistory */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WriteHistory;
