@@ -73,11 +73,11 @@ public final class HomeViewController: UIViewController {
                     if let historyID = historyID {
                         // TODO: 기록 상세 화면으로 이동
                     } else {
-                        self?.coordinator.presentWriteHistoryVC()
+                        self?.coordinator.presentWriteHistoryVC(defaultDate: Date())
                     }
                 }
                 cell.addButtonTappedHandler = { [weak self] in
-                    self?.coordinator.presentWriteHistoryVC()
+                    self?.coordinator.presentWriteHistoryVC(defaultDate: Date())
                 }
             }
             
@@ -88,7 +88,17 @@ public final class HomeViewController: UIViewController {
         disposeBag.insert(
             viewModel.sections
                 .observe(on: MainScheduler.instance)
-                .bind(to: collectionView.rx.items(dataSource: dataSource))
+                .bind(to: collectionView.rx.items(dataSource: dataSource)),
+            collectionView.rx.modelSelected(HomeCellData.self)
+                .bind(onNext: { [weak self] item in
+                    if case let .lastWeekHistory(mainHistoryID, _, _, date) = item {
+                        if let historyID = mainHistoryID {
+                            // TODO: 기록 상세 화면으로 이동
+                        } else {
+                            self?.coordinator.presentWriteHistoryVC(defaultDate: date)
+                        }
+                    }
+                })
         )
     }
 }

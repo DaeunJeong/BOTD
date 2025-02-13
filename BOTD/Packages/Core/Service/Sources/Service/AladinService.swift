@@ -21,7 +21,7 @@ public final class AladinService: AladinServiceProtocol {
     
     public func getBooks(searchQuery: String, page: Int) async throws -> [AladinBook] {
         let request = Request(url: baseURL + "ItemSearch.aspx", method: .get,
-                              parameters: ["TTBKey": ttbKey, "Query": searchQuery, "Start": page, "Output": "JS"])
+                              parameters: ["TTBKey": ttbKey, "Query": searchQuery, "Start": page, "Output": "JS", "Cover": "Big"])
         let responseData = try await NetworkManager.shared.request(request: request)
         guard let json = try? JSONSerialization.jsonObject(with: responseData) as? [String: Any],
               let bookJSON = json["item"] as? [[String: Any]] else { return [] }

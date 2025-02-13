@@ -24,7 +24,7 @@ public protocol WriteHistoryViewModelProtocol {
 
 public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
     private let repository: WriteHistoryRepositoryProtocol
-    private let selectedDate = BehaviorRelay<Date>(value: Date())
+    private let selectedDate: BehaviorRelay<Date>
     private let selectedBook = BehaviorRelay<SearchBookResultDisplayable?>(value: nil)
     private let passageList = BehaviorRelay<[String]>(value: [])
     private let memoList = BehaviorRelay<[String]>(value: [])
@@ -32,7 +32,8 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
     public let sections: Observable<[WriteHistorySection]>
     public let isEnabledToComplete: Observable<Bool>
     
-    public init(repository: WriteHistoryRepositoryProtocol) {
+    public init(repository: WriteHistoryRepositoryProtocol, defaultDate: Date = Date()) {
+        selectedDate = .init(value: defaultDate)
         self.repository = repository
         sections = Observable.combineLatest(selectedDate, selectedBook, passageList, memoList)
             .map({ selectedDate, selectedBook, passageList, memoList in

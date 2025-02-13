@@ -16,10 +16,10 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         self.nav = nav
     }
     
-    func presentWriteHistoryVC() {
+    func presentWriteHistoryVC(defaultDate: Date) {
         let writeHistoryNC = UINavigationController()
         let writeHistoryRP = WriteHistoryRepository()
-        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP)
+        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP, defaultDate: defaultDate)
         let writeHistoryCD = WriteHistoryCoordinator(nav: writeHistoryNC)
         let writeHistoryVC = WriteHistoryViewController(coordinator: writeHistoryCD, viewModel: writeHistoryVM)
         writeHistoryNC.viewControllers = [writeHistoryVC]
