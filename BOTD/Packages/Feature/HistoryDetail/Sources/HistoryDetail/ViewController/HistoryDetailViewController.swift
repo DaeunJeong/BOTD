@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxDataSources
+import RxSwift
 
 public final class HistoryDetailViewController: UIViewController {
     public init(viewModel: HistoryDetailViewModelProtocol) {
@@ -18,6 +20,20 @@ public final class HistoryDetailViewController: UIViewController {
     }
     
     private let viewModel: HistoryDetailViewModelProtocol
+    private let disposeBag = DisposeBag()
+    typealias DataSource = RxCollectionViewSectionedReloadDataSource
+    private var dataSource: DataSource<HistoryDetailSection>?
+    
+    private lazy var collectionView: UICollectionView = { [weak self] in
+        let layout = UICollectionViewCompositionalLayout { [weak self] index, _ in
+            return self?.dataSource?.sectionModels[index].layoutSize
+            ?? HistoryDetailSection.header([]).layoutSize
+        }
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = .zero
+        collectionView.contentInsetAdjustmentBehavior = .never
+        return collectionView
+    }()
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -30,9 +46,35 @@ public final class HistoryDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        view.addSubview(collectionView)
+        
+        setupCollectionView()
     }
     
     @objc private func tapCloseButton() {
         navigationController?.dismiss(animated: true)
+    }
+    
+    private func setupCollectionView() {
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        let dataSource = DataSource<HistoryDetailSection> { _, collectionView, indexPath, item in
+            let cellID = String(describing: item.cellStyle)
+            collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+            (cell as? HistoryDetailCellProtocol)?.apply(cellData: item)
+            
+            return cell
+        }
+        self.dataSource = dataSource
+        
+        disposeBag.insert(
+            viewModel.sections
+                .observe(on: MainScheduler.instance)
+                .bind(to: collectionView.rx.items(dataSource: dataSource))
+        )
     }
 }

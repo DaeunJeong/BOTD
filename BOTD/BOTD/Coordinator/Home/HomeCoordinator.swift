@@ -31,7 +31,7 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     func presentHistoryDetailVC(historyOfDateID: String) {
         let nc = UINavigationController()
         let rp = HistoryDetailRepository()
-        let vm = HistoryDetailViewModel(repository: rp)
+        let vm = HistoryDetailViewModel(repository: rp, historyOfDateID: historyOfDateID)
         let vc = HistoryDetailViewController(viewModel: vm)
         nc.viewControllers = [vc]
         nc.modalPresentationStyle = .fullScreen
