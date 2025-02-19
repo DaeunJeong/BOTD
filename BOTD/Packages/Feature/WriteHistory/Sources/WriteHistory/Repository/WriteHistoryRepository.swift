@@ -37,7 +37,7 @@ public struct WriteHistoryRepository: WriteHistoryRepositoryProtocol {
         let passageIDs = List<String>()
         passageIDs.append(objectsIn: passageInfos.map({ $0.0 }))
         let history = RealmHistory(id: historyID, bookID: book.id, memos: memos, passageIDs: passageIDs, createdDate: date)
-        let book = RealmBook(id: book.id, imageURL: book.coverImageURL, createdDate: date)
+        let book = RealmBook(id: book.id, title: book.title, imageURL: book.coverImageURL, createdDate: date)
         let passages = passageInfos.map({ RealmPassage(id: $0.0, text: $0.1, historyID: historyID) })
         
         try! realm.write {

@@ -38,9 +38,10 @@ public final class HistoryDetailHeaderCell: UICollectionViewCell, HistoryDetailC
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(previousButton.snp.centerY)
-            make.leading.greaterThanOrEqualTo(previousButton.snp.trailing)
-            make.trailing.lessThanOrEqualTo(nextButton.snp.leading)
+            make.leading.greaterThanOrEqualTo(previousButton.snp.trailing).offset(8)
+            make.trailing.lessThanOrEqualTo(nextButton.snp.leading).offset(-8)
         }
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         nextButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalToSuperview()

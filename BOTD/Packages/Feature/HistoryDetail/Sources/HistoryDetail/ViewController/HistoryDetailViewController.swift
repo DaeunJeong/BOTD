@@ -49,6 +49,7 @@ public final class HistoryDetailViewController: UIViewController {
         view.addSubview(collectionView)
         
         setupCollectionView()
+        viewModel.getHistoryOfDate()
     }
     
     @objc private func tapCloseButton() {
