@@ -50,6 +50,7 @@ public final class HistoryDetailViewController: UIViewController {
         
         setupCollectionView()
         viewModel.getHistoryOfDate()
+        title = viewModel.dateString
     }
     
     @objc private func tapCloseButton() {
@@ -62,11 +63,20 @@ public final class HistoryDetailViewController: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        let dataSource = DataSource<HistoryDetailSection> { _, collectionView, indexPath, item in
+        let dataSource = DataSource<HistoryDetailSection> { [weak self] _, collectionView, indexPath, item in
             let cellID = String(describing: item.cellStyle)
             collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             (cell as? HistoryDetailCellProtocol)?.apply(cellData: item)
+            
+            if let cell = cell as? HistoryDetailHeaderCell {
+                cell.previousButtonTappedHandler = { [weak self] in
+                    self?.viewModel.moveToPrevious()
+                }
+                cell.nextButtonTappedHandler = { [weak self] in
+                    self?.viewModel.moveToNext()
+                }
+            }
             
             return cell
         }

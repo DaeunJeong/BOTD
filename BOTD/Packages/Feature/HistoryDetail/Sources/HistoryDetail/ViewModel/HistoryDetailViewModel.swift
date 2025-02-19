@@ -12,8 +12,11 @@ import Entity
 
 public protocol HistoryDetailViewModelProtocol {
     var sections: Observable<[HistoryDetailSection]> { get }
+    var dateString: String { get }
     
     func getHistoryOfDate()
+    func moveToPrevious()
+    func moveToNext()
 }
 
 public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
@@ -26,10 +29,17 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
     private let passages = BehaviorRelay<[String: Passage]>(value: [:])
     
     public let sections: Observable<[HistoryDetailSection]>
+    public let dateString: String
     
     public init(repository: HistoryDetailRepositoryProtocol, historyOfDateID: String, defaultCurrentHistoryID: String? = nil) {
         self.repository = repository
         self.historyOfDateID = historyOfDateID
+        if let date = DateFormatter(dateFormat: "yyyyMMdd").date(from: historyOfDateID) {
+            self.dateString = DateFormatter(dateFormat: "yyyy.M.d (E)").string(from: date)
+        } else {
+            self.dateString = ""
+        }
+        
         currentHistoryID = .init(value: defaultCurrentHistoryID)
         
         sections = Observable.combineLatest(currentHistoryID, historyIDs, histories, books, passages)
@@ -70,6 +80,22 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
             currentHistoryID.accept(firstHistoryID)
             getHistoryIfNeeded(id: firstHistoryID)
         }
+    }
+    
+    public func moveToPrevious() {
+        guard let currentHistoryID = currentHistoryID.value,
+              let currentIndex = historyIDs.value.firstIndex(of: currentHistoryID) else { return }
+        let previousID = historyIDs.value[currentIndex - 1]
+        self.currentHistoryID.accept(previousID)
+        getHistoryIfNeeded(id: previousID)
+    }
+    
+    public func moveToNext() {
+        guard let currentHistoryID = currentHistoryID.value,
+              let currentIndex = historyIDs.value.firstIndex(of: currentHistoryID) else { return }
+        let nextID = historyIDs.value[currentIndex + 1]
+        self.currentHistoryID.accept(nextID)
+        getHistoryIfNeeded(id: nextID)
     }
     
     private func getHistoryIfNeeded(id: String) {

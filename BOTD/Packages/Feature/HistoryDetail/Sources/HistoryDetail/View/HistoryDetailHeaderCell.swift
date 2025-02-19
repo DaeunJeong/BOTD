@@ -26,6 +26,9 @@ public final class HistoryDetailHeaderCell: UICollectionViewCell, HistoryDetailC
         return button
     }()
     
+    public var previousButtonTappedHandler: (() -> Void)?
+    public var nextButtonTappedHandler: (() -> Void)?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,10 +49,21 @@ public final class HistoryDetailHeaderCell: UICollectionViewCell, HistoryDetailC
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalToSuperview()
         }
+        
+        previousButton.addTarget(self, action: #selector(tapPreviousButton), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(tapNextButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func tapPreviousButton() {
+        previousButtonTappedHandler?()
+    }
+    
+    @objc private func tapNextButton() {
+        nextButtonTappedHandler?()
     }
     
     public func apply(cellData: HistoryDetailCellData) {
