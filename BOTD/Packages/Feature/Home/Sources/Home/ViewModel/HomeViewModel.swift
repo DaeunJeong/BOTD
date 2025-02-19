@@ -16,6 +16,7 @@ public protocol HomeViewModelProtocol {
     func getTodaysHistory()
     func getLastWeekHistory()
     func getTodaysPassage()
+    func getTodaysPassgeHistoryOfDateID() -> String?
 }
 
 public struct HomeViewModel: HomeViewModelProtocol {
@@ -124,6 +125,20 @@ public struct HomeViewModel: HomeViewModelProtocol {
                 "수백년 동안 졌다고 해서 시작하기도 전에 이기려는 노력도 하지 말아야 할 까닭은 없으니까"
             ]
             todaysPassage.accept((defaultPassages.randomElement() ?? "", nil))
+        }
+    }
+    
+    public func getTodaysPassgeHistoryOfDateID() -> String? {
+        guard let todaysPassageHistoryID = todaysPassage.value?.historyID else { return nil }
+        if let history = histories.value[todaysPassageHistoryID] {
+            return DateFormatter(dateFormat: "yyyyMMdd").string(from: history.createdDate)
+        } else if let history = repository.getHistory(id: todaysPassageHistoryID) {
+            var histories = histories.value
+            histories[history.id] = history
+            self.histories.accept(histories)
+            return DateFormatter(dateFormat: "yyyyMMdd").string(from: history.createdDate)
+        } else {
+            return nil
         }
     }
 }

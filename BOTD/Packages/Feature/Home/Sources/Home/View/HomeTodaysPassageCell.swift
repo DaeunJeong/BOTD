@@ -23,6 +23,7 @@ public class HomeTodaysPassageCell: UICollectionViewCell, HomeCellProtocol {
         button.tintColor = .black
         return button
     }()
+    public var detailButtonTappedHandler: (() -> Void)?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,10 +62,15 @@ public class HomeTodaysPassageCell: UICollectionViewCell, HomeCellProtocol {
         containerView.layer.shadowRadius = 6
         containerView.clipsToBounds = false
         containerView.layer.masksToBounds = false
+        detailButton.addTarget(self, action: #selector(tapDetailButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func tapDetailButton() {
+        detailButtonTappedHandler?()
     }
     
     public func apply(cellData: HomeCellData) {

@@ -71,13 +71,19 @@ public final class HomeViewController: UIViewController {
                case let .todaysBook(historyOfDateID, _) = item {
                 cell.bookViewTappedHandler = { [weak self] in
                     if let historyOfDateID = historyOfDateID {
-                        self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID)
+                        self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID, defaultCurrentHistoryID: nil)
                     } else {
                         self?.coordinator.presentWriteHistoryVC(defaultDate: Date())
                     }
                 }
                 cell.addButtonTappedHandler = { [weak self] in
                     self?.coordinator.presentWriteHistoryVC(defaultDate: Date())
+                }
+            } else if let cell = cell as? HomeTodaysPassageCell,
+                      case let .todaysPassage(_, historyID) = item {
+                cell.detailButtonTappedHandler = { [weak self] in
+                    guard let historyOfDateID = self?.viewModel.getTodaysPassgeHistoryOfDateID() else { return }
+                    self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID, defaultCurrentHistoryID: historyID)
                 }
             }
             
@@ -93,7 +99,7 @@ public final class HomeViewController: UIViewController {
                 .bind(onNext: { [weak self] item in
                     if case let .lastWeekHistory(historyOfDateID, _, _, date) = item {
                         if let historyOfDateID = historyOfDateID {
-                            self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID)
+                            self?.coordinator.presentHistoryDetailVC(historyOfDateID: historyOfDateID, defaultCurrentHistoryID: nil)
                         } else {
                             self?.coordinator.presentWriteHistoryVC(defaultDate: date)
                         }

@@ -9,5 +9,5 @@ import UIKit
 
 public protocol HomeCoordinatorProtocol {
     func presentWriteHistoryVC(defaultDate: Date)
-    func presentHistoryDetailVC(historyOfDateID: String)
+    func presentHistoryDetailVC(historyOfDateID: String, defaultCurrentHistoryID: String?)
 }

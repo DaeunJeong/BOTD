@@ -28,10 +28,11 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         nav?.present(writeHistoryNC, animated: true)
     }
     
-    func presentHistoryDetailVC(historyOfDateID: String) {
+    func presentHistoryDetailVC(historyOfDateID: String, defaultCurrentHistoryID: String?) {
         let nc = UINavigationController()
         let rp = HistoryDetailRepository()
-        let vm = HistoryDetailViewModel(repository: rp, historyOfDateID: historyOfDateID)
+        let vm = HistoryDetailViewModel(repository: rp, historyOfDateID: historyOfDateID,
+                                        defaultCurrentHistoryID: defaultCurrentHistoryID)
         let vc = HistoryDetailViewController(viewModel: vm)
         nc.viewControllers = [vc]
         nc.modalPresentationStyle = .fullScreen
