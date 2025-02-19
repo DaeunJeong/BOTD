@@ -7,6 +7,7 @@
 
 import UIKit
 import Home
+import Library
 
 class MainTabBarController: UITabBarController {
     init() {
@@ -21,7 +22,13 @@ class MainTabBarController: UITabBarController {
             homeNC.viewControllers = [homeVC]
             return homeNC
         }
-        tabs = [homeTab]
+        let libraryTab = UITab(title: "서재", image: UIImage(systemName: "books.vertical.fill"), identifier: "Library") { _ in
+            let libraryNC = UINavigationController()
+            let libraryVC = LibraryViewController()
+            libraryNC.viewControllers = [libraryVC]
+            return libraryNC
+        }
+        tabs = [homeTab, libraryTab]
     }
     
     required init?(coder: NSCoder) {
