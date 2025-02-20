@@ -47,6 +47,8 @@ public final class LibraryViewController: UIViewController {
         
         view.addSubview(collectionView)
         setupCollectionView()
+        
+        viewModel.getBooks()
     }
     
     private func setupCollectionView() {

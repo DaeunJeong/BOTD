@@ -24,7 +24,8 @@ class MainTabBarController: UITabBarController {
         }
         let libraryTab = UITab(title: "서재", image: UIImage(systemName: "books.vertical.fill"), identifier: "Library") { _ in
             let libraryNC = UINavigationController()
-            let libraryVM = LibraryViewModel()
+            let libraryRP = LibraryRepository()
+            let libraryVM = LibraryViewModel(repository: libraryRP)
             let libraryVC = LibraryViewController(viewModel: libraryVM)
             libraryNC.viewControllers = [libraryVC]
             return libraryNC
