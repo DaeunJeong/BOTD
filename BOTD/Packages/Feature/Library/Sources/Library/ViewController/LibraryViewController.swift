@@ -11,7 +11,8 @@ import RxSwift
 import SnapKit
 
 public final class LibraryViewController: UIViewController {
-    public init(viewModel: LibraryViewModelProtocol) {
+    public init(coordinator: LibraryCoordinatorProtocol, viewModel: LibraryViewModelProtocol) {
+        self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,6 +21,7 @@ public final class LibraryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let coordinator: LibraryCoordinatorProtocol
     private let viewModel: LibraryViewModelProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
@@ -57,11 +59,23 @@ public final class LibraryViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
-        let dataSource = DataSource<LibrarySection> { _, collectionView, indexPath, item in
+        let dataSource = DataSource<LibrarySection> { [weak self] _, collectionView, indexPath, item in
             let cellID = String(describing: item.cellStyle)
             collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             (cell as? LibraryCellProtocol)?.apply(cellData: item)
+            
+            if let cell = cell as? LibraryBookCell {
+                // TODO: 기록 상세 화면으로 이동
+            } else if let cell = cell as? LibraryAddBookCell {
+                cell.addButtonTappedHandler = { [weak self] in
+                    self?.coordinator.presentWriteHistoryVC()
+                }
+            } else if let cell = cell as? LibraryEmptyCell {
+                cell.addButtonTappedHandler = { [weak self] in
+                    self?.coordinator.presentWriteHistoryVC()
+                }
+            }
             
             return cell
         }

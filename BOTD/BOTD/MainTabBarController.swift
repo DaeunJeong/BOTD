@@ -26,7 +26,8 @@ class MainTabBarController: UITabBarController {
             let libraryNC = UINavigationController()
             let libraryRP = LibraryRepository()
             let libraryVM = LibraryViewModel(repository: libraryRP)
-            let libraryVC = LibraryViewController(viewModel: libraryVM)
+            let libraryCD = LibraryCoordinator(nav: libraryNC)
+            let libraryVC = LibraryViewController(coordinator: libraryCD, viewModel: libraryVM)
             libraryNC.viewControllers = [libraryVC]
             return libraryNC
         }
