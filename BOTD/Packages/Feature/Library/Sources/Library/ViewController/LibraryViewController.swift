@@ -65,9 +65,7 @@ public final class LibraryViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
             (cell as? LibraryCellProtocol)?.apply(cellData: item)
             
-            if let cell = cell as? LibraryBookCell {
-                // TODO: 기록 상세 화면으로 이동
-            } else if let cell = cell as? LibraryAddBookCell {
+            if let cell = cell as? LibraryAddBookCell {
                 cell.addButtonTappedHandler = { [weak self] in
                     self?.coordinator.presentWriteHistoryVC()
                 }
@@ -84,7 +82,12 @@ public final class LibraryViewController: UIViewController {
         disposeBag.insert(
             viewModel.sections
                 .observe(on: MainScheduler.instance)
-                .bind(to: collectionView.rx.items(dataSource: dataSource))
+                .bind(to: collectionView.rx.items(dataSource: dataSource)),
+            collectionView.rx.modelSelected(LibraryCellData.self)
+                .bind(onNext: { [weak self] item in
+                    guard case let .book(bookID, _) = item else { return }
+                    self?.coordinator.presentHistoryDetailVC(bookID: bookID)
+                })
         )
     }
 }

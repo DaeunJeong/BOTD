@@ -9,4 +9,5 @@ import UIKit
 
 public protocol LibraryCoordinatorProtocol {
     func presentWriteHistoryVC()
+    func presentHistoryDetailVC(bookID: String)
 }

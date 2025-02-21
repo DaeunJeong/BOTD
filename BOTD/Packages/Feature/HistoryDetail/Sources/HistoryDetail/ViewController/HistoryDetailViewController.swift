@@ -49,8 +49,8 @@ public final class HistoryDetailViewController: UIViewController {
         view.addSubview(collectionView)
         
         setupCollectionView()
+        setupBindings()
         viewModel.getHistoryOfDate()
-        title = viewModel.dateString
     }
     
     @objc private func tapCloseButton() {
@@ -87,5 +87,12 @@ public final class HistoryDetailViewController: UIViewController {
                 .observe(on: MainScheduler.instance)
                 .bind(to: collectionView.rx.items(dataSource: dataSource))
         )
+    }
+    
+    private func setupBindings() {
+        viewModel.naviTitle
+            .observe(on: MainScheduler.instance)
+            .bind(to: rx.title)
+            .disposed(by: disposeBag)
     }
 }

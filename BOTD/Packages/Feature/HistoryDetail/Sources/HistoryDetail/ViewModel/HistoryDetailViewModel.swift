@@ -12,7 +12,7 @@ import Entity
 
 public protocol HistoryDetailViewModelProtocol {
     var sections: Observable<[HistoryDetailSection]> { get }
-    var dateString: String { get }
+    var naviTitle: Observable<String?> { get }
     
     func getHistoryOfDate()
     func moveToPrevious()
@@ -20,8 +20,12 @@ public protocol HistoryDetailViewModelProtocol {
 }
 
 public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
+    public enum Filter {
+        case date(historyOfDateID: String)
+        case book(bookID: String)
+    }
     private let repository: HistoryDetailRepositoryProtocol
-    private let historyOfDateID: String
+    private let filter: Filter
     private let currentHistoryID: BehaviorRelay<String?>
     private let historyIDs = BehaviorRelay<[String]>(value: [])
     private let histories = BehaviorRelay<[String: History]>(value: [:])
@@ -29,17 +33,11 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
     private let passages = BehaviorRelay<[String: Passage]>(value: [:])
     
     public let sections: Observable<[HistoryDetailSection]>
-    public let dateString: String
+    public let naviTitle: Observable<String?>
     
-    public init(repository: HistoryDetailRepositoryProtocol, historyOfDateID: String, defaultCurrentHistoryID: String? = nil) {
+    public init(repository: HistoryDetailRepositoryProtocol, filter: Filter, defaultCurrentHistoryID: String? = nil) {
         self.repository = repository
-        self.historyOfDateID = historyOfDateID
-        if let date = DateFormatter(dateFormat: "yyyyMMdd").date(from: historyOfDateID) {
-            self.dateString = DateFormatter(dateFormat: "yyyy.M.d (E)").string(from: date)
-        } else {
-            self.dateString = ""
-        }
-        
+        self.filter = filter
         currentHistoryID = .init(value: defaultCurrentHistoryID)
         
         sections = Observable.combineLatest(currentHistoryID, historyIDs, histories, books, passages)
@@ -47,10 +45,21 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
                 guard let historyID = currentHistoryID, let history = histories[historyID],
                       let book = books[history.bookID] else { return [] }
                 
-                var sections: [HistoryDetailSection] = [
-                    .header([.header(title: book.title, isPreviousButtonHidden: historyIDs.first == historyID,
-                                     isNextButtonHidden: historyIDs.last == historyID)])
-                ]
+                var sections: [HistoryDetailSection] = []
+                switch filter {
+                case .date:
+                    sections += [
+                        .header([.header(title: book.title, isPreviousButtonHidden: historyIDs.first == historyID,
+                                         isNextButtonHidden: historyIDs.last == historyID)])
+                    ]
+                case .book:
+                    sections += [
+                        .header([.header(title: DateFormatter(dateFormat: "yyyy.M.d (E)").string(from: history.createdDate),
+                                         isPreviousButtonHidden: historyIDs.first == historyID,
+                                         isNextButtonHidden: historyIDs.last == historyID)])
+                    ]
+                }
+                
                 if !history.passageIDs.isEmpty {
                     sections += [
                         .title([.title("기억에 남는 구절")]),
@@ -69,16 +78,38 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
                 
                 return sections
             })
+        switch filter {
+        case let .date(historyOfDateID):
+            if let date = DateFormatter(dateFormat: "yyyyMMdd").date(from: historyOfDateID) {
+                naviTitle = .just(DateFormatter(dateFormat: "yyyy.M.d (E)").string(from: date))
+            } else {
+                naviTitle = .just(nil)
+            }
+        case let .book(bookID):
+            naviTitle = books.map({ $0[bookID]?.title })
+        }
     }
     
     public func getHistoryOfDate() {
-        guard let historyOfDate = repository.getHistoryOfDate(id: historyOfDateID) else { return }
-        historyIDs.accept(historyOfDate.historyIDs)
-        if let currentHistoryID = currentHistoryID.value {
-            getHistoryIfNeeded(id: currentHistoryID)
-        } else if let firstHistoryID = historyOfDate.historyIDs.first {
-            currentHistoryID.accept(firstHistoryID)
-            getHistoryIfNeeded(id: firstHistoryID)
+        switch filter {
+        case let .date(historyOfDateID):
+            guard let historyOfDate = repository.getHistoryOfDate(id: historyOfDateID) else { return }
+            historyIDs.accept(historyOfDate.historyIDs)
+            if let currentHistoryID = currentHistoryID.value {
+                getHistoryIfNeeded(id: currentHistoryID)
+            } else if let firstHistoryID = historyOfDate.historyIDs.first {
+                currentHistoryID.accept(firstHistoryID)
+                getHistoryIfNeeded(id: firstHistoryID)
+            }
+        case let .book(bookID):
+            guard let book = repository.getBook(id: bookID) else { return }
+            historyIDs.accept(book.historyIDs)
+            if let currentHistoryID = currentHistoryID.value {
+                getHistoryIfNeeded(id: currentHistoryID)
+            } else if let firstHistoryID = book.historyIDs.first {
+                currentHistoryID.accept(firstHistoryID)
+                getHistoryIfNeeded(id: firstHistoryID)
+            }
         }
     }
     

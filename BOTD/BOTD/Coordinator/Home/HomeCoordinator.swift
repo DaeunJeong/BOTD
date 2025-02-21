@@ -31,7 +31,7 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     func presentHistoryDetailVC(historyOfDateID: String, defaultCurrentHistoryID: String?) {
         let nc = UINavigationController()
         let rp = HistoryDetailRepository()
-        let vm = HistoryDetailViewModel(repository: rp, historyOfDateID: historyOfDateID,
+        let vm = HistoryDetailViewModel(repository: rp, filter: .date(historyOfDateID: historyOfDateID),
                                         defaultCurrentHistoryID: defaultCurrentHistoryID)
         let vc = HistoryDetailViewController(viewModel: vm)
         nc.viewControllers = [vc]
