@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EventBus
 import Home
 import Library
 
@@ -18,7 +19,7 @@ class MainTabBarController: UITabBarController {
             let homeVM = HomeViewModel(repository: homeRP)
             let homeNC = UINavigationController()
             let homeCD = HomeCoordinator(nav: homeNC)
-            let homeVC = HomeViewController(coordinator: homeCD, viewModel: homeVM)
+            let homeVC = HomeViewController(coordinator: homeCD, viewModel: homeVM, eventBus: EventBus.shared)
             homeNC.viewControllers = [homeVC]
             return homeNC
         }
@@ -27,7 +28,7 @@ class MainTabBarController: UITabBarController {
             let libraryRP = LibraryRepository()
             let libraryVM = LibraryViewModel(repository: libraryRP)
             let libraryCD = LibraryCoordinator(nav: libraryNC)
-            let libraryVC = LibraryViewController(coordinator: libraryCD, viewModel: libraryVM)
+            let libraryVC = LibraryViewController(coordinator: libraryCD, viewModel: libraryVM, eventBus: EventBus.shared)
             libraryNC.viewControllers = [libraryVC]
             return libraryNC
         }

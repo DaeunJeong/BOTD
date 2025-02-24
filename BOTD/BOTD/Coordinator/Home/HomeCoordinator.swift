@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EventBus
 import HistoryDetail
 import Home
 import WriteHistory
@@ -17,10 +18,11 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         self.nav = nav
     }
     
-    func presentWriteHistoryVC(defaultDate: Date) {
+    @MainActor func presentWriteHistoryVC(defaultDate: Date) {
         let writeHistoryNC = UINavigationController()
         let writeHistoryRP = WriteHistoryRepository()
-        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP, defaultDate: defaultDate)
+        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP, defaultDate: defaultDate,
+                                                   eventBus: EventBus.shared)
         let writeHistoryCD = WriteHistoryCoordinator(nav: writeHistoryNC)
         let writeHistoryVC = WriteHistoryViewController(coordinator: writeHistoryCD, viewModel: writeHistoryVM)
         writeHistoryNC.viewControllers = [writeHistoryVC]

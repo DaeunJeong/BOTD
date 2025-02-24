@@ -8,6 +8,6 @@
 import UIKit
 
 public protocol HomeCoordinatorProtocol {
-    func presentWriteHistoryVC(defaultDate: Date)
+    @MainActor func presentWriteHistoryVC(defaultDate: Date)
     func presentHistoryDetailVC(historyOfDateID: String, defaultCurrentHistoryID: String?)
 }

@@ -9,11 +9,13 @@ import UIKit
 import RxDataSources
 import RxSwift
 import SnapKit
+import EventBus
 
 public final class LibraryViewController: UIViewController {
-    public init(coordinator: LibraryCoordinatorProtocol, viewModel: LibraryViewModelProtocol) {
+    public init(coordinator: LibraryCoordinatorProtocol, viewModel: LibraryViewModelProtocol, eventBus: EventBusProtocol) {
         self.coordinator = coordinator
         self.viewModel = viewModel
+        self.eventBus = eventBus
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,6 +25,7 @@ public final class LibraryViewController: UIViewController {
     
     private let coordinator: LibraryCoordinatorProtocol
     private let viewModel: LibraryViewModelProtocol
+    private let eventBus: EventBusProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
     private var dataSource: DataSource<LibrarySection>?
@@ -51,6 +54,12 @@ public final class LibraryViewController: UIViewController {
         setupCollectionView()
         
         viewModel.getBooks()
+        
+        eventBus.asObservable()
+            .bind(onNext: { [weak self] event in
+                guard case .refreshHistories = event else { return }
+                self?.viewModel.getBooks()
+            }).disposed(by: disposeBag)
     }
     
     private func setupCollectionView() {

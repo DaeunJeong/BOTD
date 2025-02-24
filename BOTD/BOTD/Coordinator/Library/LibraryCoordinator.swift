@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import EventBus
 import HistoryDetail
 import Library
 import WriteHistory
@@ -17,10 +18,10 @@ public final class LibraryCoordinator: LibraryCoordinatorProtocol {
         self.nav = nav
     }
     
-    public func presentWriteHistoryVC() {
+    @MainActor public func presentWriteHistoryVC() {
         let writeHistoryNC = UINavigationController()
         let writeHistoryRP = WriteHistoryRepository()
-        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP)
+        let writeHistoryVM = WriteHistoryViewModel(repository: writeHistoryRP, eventBus: EventBus.shared)
         let writeHistoryCD = WriteHistoryCoordinator(nav: writeHistoryNC)
         let writeHistoryVC = WriteHistoryViewController(coordinator: writeHistoryCD, viewModel: writeHistoryVM)
         writeHistoryNC.viewControllers = [writeHistoryVC]

@@ -9,11 +9,14 @@ import UIKit
 import RxDataSources
 import RxSwift
 import SnapKit
+import EventBus
 
 public final class HomeViewController: UIViewController {
-    public init(coordinator: HomeCoordinatorProtocol, viewModel: HomeViewModelProtocol) {
+    public init(coordinator: HomeCoordinatorProtocol, viewModel: HomeViewModelProtocol,
+                eventBus: EventBusProtocol) {
         self.coordinator = coordinator
         self.viewModel = viewModel
+        self.eventBus = eventBus
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,6 +26,7 @@ public final class HomeViewController: UIViewController {
     
     private let coordinator: HomeCoordinatorProtocol
     private let viewModel: HomeViewModelProtocol
+    private let eventBus: EventBusProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
     private var dataSource: DataSource<HomeSection>?
@@ -53,6 +57,14 @@ public final class HomeViewController: UIViewController {
         viewModel.getTodaysHistory()
         viewModel.getLastWeekHistory()
         viewModel.getTodaysPassage()
+        
+        eventBus.asObservable()
+            .bind(onNext: { [weak self] event in
+                guard case .refreshHistories = event else { return }
+                self?.viewModel.getTodaysHistory()
+                self?.viewModel.getLastWeekHistory()
+                self?.viewModel.getTodaysPassage()
+            }).disposed(by: disposeBag)
     }
     
     private func setupCollectionView() {

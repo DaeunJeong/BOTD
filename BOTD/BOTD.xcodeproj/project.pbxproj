@@ -45,6 +45,7 @@
 		C434E2E92D5DF668007B45CC /* HistoryDetail */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HistoryDetail; sourceTree = "<group>"; };
 		C450BD152D3F91BD00140DF1 /* Entity */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Entity; sourceTree = "<group>"; };
 		C46530082D437DBD0068792B /* WriteHistory */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WriteHistory; sourceTree = "<group>"; };
+		C46669142D6AE7C200298B80 /* EventBus */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EventBus; sourceTree = "<group>"; };
 		C46ED2C62D30DE5D00EC0E47 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		C46ED2E32D30EC4B00EC0E47 /* Extension */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Extension; sourceTree = "<group>"; };
 		C4BC54F02D55EF90003BFE77 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 		C46ED2E42D30EC4B00EC0E47 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C46669142D6AE7C200298B80 /* EventBus */,
 				C4BC54F12D55F535003BFE77 /* Service */,
 				C4BC54F02D55EF90003BFE77 /* Networking */,
 				C450BD152D3F91BD00140DF1 /* Entity */,

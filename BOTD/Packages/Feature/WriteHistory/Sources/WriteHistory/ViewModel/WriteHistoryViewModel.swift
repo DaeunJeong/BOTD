@@ -8,6 +8,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import EventBus
 
 public protocol WriteHistoryViewModelProtocol {
     var sections: Observable<[WriteHistorySection]> { get }
@@ -19,11 +20,12 @@ public protocol WriteHistoryViewModelProtocol {
     func deletePassage(index: Int)
     func addMemo(_ memo: String)
     func deleteMemo(index: Int)
-    func writeHistory()
+    @MainActor func writeHistory()
 }
 
 public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
     private let repository: WriteHistoryRepositoryProtocol
+    private let eventBus: EventBusProtocol
     private let selectedDate: BehaviorRelay<Date>
     private let selectedBook = BehaviorRelay<SearchBookResultDisplayable?>(value: nil)
     private let passageList = BehaviorRelay<[String]>(value: [])
@@ -32,9 +34,10 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
     public let sections: Observable<[WriteHistorySection]>
     public let isEnabledToComplete: Observable<Bool>
     
-    public init(repository: WriteHistoryRepositoryProtocol, defaultDate: Date = Date()) {
+    public init(repository: WriteHistoryRepositoryProtocol, defaultDate: Date = Date(), eventBus: EventBusProtocol) {
         selectedDate = .init(value: defaultDate)
         self.repository = repository
+        self.eventBus = eventBus
         sections = Observable.combineLatest(selectedDate, selectedBook, passageList, memoList)
             .map({ selectedDate, selectedBook, passageList, memoList in
                 var sections: [WriteHistorySection] = [.titleHeader([.titleHeader("날짜")]),
@@ -92,8 +95,9 @@ public struct WriteHistoryViewModel: WriteHistoryViewModelProtocol {
         self.memoList.accept(memoList)
     }
     
-    public func writeHistory() {
+    @MainActor public func writeHistory() {
         guard let book = selectedBook.value else { return }
         repository.writeHistory(date: selectedDate.value, book: book, memoList: memoList.value, passageList: passageList.value)
+        eventBus.publish(event: .refreshHistories)
     }
 }
