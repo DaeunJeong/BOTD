@@ -35,7 +35,8 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
         let rp = HistoryDetailRepository()
         let vm = HistoryDetailViewModel(repository: rp, filter: .date(historyOfDateID: historyOfDateID),
                                         defaultCurrentHistoryID: defaultCurrentHistoryID)
-        let vc = HistoryDetailViewController(viewModel: vm)
+        let cd = HistoryDetailCoordinator(nav: nc)
+        let vc = HistoryDetailViewController(coordinator: cd, viewModel: vm)
         nc.viewControllers = [vc]
         nc.modalPresentationStyle = .fullScreen
         nav?.present(nc, animated: true)

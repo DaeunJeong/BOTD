@@ -17,6 +17,7 @@ public protocol HistoryDetailViewModelProtocol {
     func getHistoryOfDate()
     func moveToPrevious()
     func moveToNext()
+    func getCurrentHistoryID() -> String?
 }
 
 public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
@@ -148,5 +149,9 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
             passages[passage.id] = passage
         }
         self.passages.accept(passages)
+    }
+    
+    public func getCurrentHistoryID() -> String? {
+        currentHistoryID.value
     }
 }

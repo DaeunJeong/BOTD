@@ -33,7 +33,8 @@ public final class LibraryCoordinator: LibraryCoordinatorProtocol {
         let nc = UINavigationController()
         let rp = HistoryDetailRepository()
         let vm = HistoryDetailViewModel(repository: rp, filter: .book(bookID: bookID))
-        let vc = HistoryDetailViewController(viewModel: vm)
+        let cd = HistoryDetailCoordinator(nav: nc)
+        let vc = HistoryDetailViewController(coordinator: cd, viewModel: vm)
         nc.viewControllers = [vc]
         nc.modalPresentationStyle = .fullScreen
         nav?.present(nc, animated: true)

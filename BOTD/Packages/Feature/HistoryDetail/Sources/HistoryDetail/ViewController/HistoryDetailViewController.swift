@@ -10,7 +10,8 @@ import RxDataSources
 import RxSwift
 
 public final class HistoryDetailViewController: UIViewController {
-    public init(viewModel: HistoryDetailViewModelProtocol) {
+    public init(coordinator: HistoryDetailCoordinatorProtocol, viewModel: HistoryDetailViewModelProtocol) {
+        self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -19,6 +20,7 @@ public final class HistoryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let coordinator: HistoryDetailCoordinatorProtocol
     private let viewModel: HistoryDetailViewModelProtocol
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
@@ -35,6 +37,15 @@ public final class HistoryDetailViewController: UIViewController {
         return collectionView
     }()
     
+    private let editButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.background.cornerRadius = 8
+        config.background.backgroundColor = .beige700
+        config.attributedTitle = .init("기록 편집", font: .boldSystemFont(ofSize: 16), color: .white)
+        let button = UIButton(configuration: config)
+        return button
+    }()
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -46,11 +57,14 @@ public final class HistoryDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        view.addSubview(collectionView)
+        view.addSubviews(collectionView, editButton)
         
         setupCollectionView()
         setupBindings()
+        setupConstraints()
         viewModel.getHistoryOfDate()
+        
+        editButton.addTarget(self, action: #selector(tapEditButton), for: .touchUpInside)
     }
     
     @objc private func tapCloseButton() {
@@ -58,11 +72,6 @@ public final class HistoryDetailViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        
         let dataSource = DataSource<HistoryDetailSection> { [weak self] _, collectionView, indexPath, item in
             let cellID = String(describing: item.cellStyle)
             collectionView.register(item.cellStyle, forCellWithReuseIdentifier: cellID)
@@ -94,5 +103,24 @@ public final class HistoryDetailViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind(to: rx.title)
             .disposed(by: disposeBag)
+    }
+    
+    @objc private func tapEditButton() {
+        guard let historyID = viewModel.getCurrentHistoryID() else { return }
+        coordinator.presentEditHistoryVC(historyID: historyID)
+    }
+    
+    private func setupConstraints() {
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(editButton.snp.top).offset(-12)
+        }
+        editButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12)
+            make.height.equalTo(56)
+        }
     }
 }
