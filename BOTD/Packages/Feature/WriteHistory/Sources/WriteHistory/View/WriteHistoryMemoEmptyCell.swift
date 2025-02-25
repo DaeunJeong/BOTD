@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class WriteHistoryMemoEmptyCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryMemoEmptyCell: UICollectionViewCell, WriteHistoryCellProtocol, EditHistoryCellProtocol {
     private let titleLabel = UILabel(font: .systemFont(ofSize: 14, weight: .medium), textColor: .black)
     private let addButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -49,6 +49,14 @@ public final class WriteHistoryMemoEmptyCell: UICollectionViewCell, WriteHistory
     }
     
     public func apply(cellData: WriteHistoryCellData) {
+        if case .passageEmpty = cellData {
+            titleLabel.text = "구절을 작성해 보세요✏️"
+        } else if case .memoEmpty = cellData {
+            titleLabel.text = "메모를 작성해 보세요✏️"
+        }
+    }
+    
+    public func apply(cellData: EditHistoryCellData) {
         if case .passageEmpty = cellData {
             titleLabel.text = "구절을 작성해 보세요✏️"
         } else if case .memoEmpty = cellData {

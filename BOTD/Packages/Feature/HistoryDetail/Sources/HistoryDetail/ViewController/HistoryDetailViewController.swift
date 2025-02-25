@@ -41,7 +41,7 @@ public final class HistoryDetailViewController: UIViewController {
         var config = UIButton.Configuration.plain()
         config.background.cornerRadius = 8
         config.background.backgroundColor = .beige700
-        config.attributedTitle = .init("기록 편집", font: .boldSystemFont(ofSize: 16), color: .white)
+        config.attributedTitle = .init("기록 수정", font: .boldSystemFont(ofSize: 16), color: .white)
         let button = UIButton(configuration: config)
         return button
     }()

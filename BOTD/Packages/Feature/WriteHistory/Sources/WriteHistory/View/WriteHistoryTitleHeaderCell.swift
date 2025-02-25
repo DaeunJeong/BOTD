@@ -8,7 +8,7 @@
 import UIKit
 import Extension
 
-public final class WriteHistoryTitleHeaderCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryTitleHeaderCell: UICollectionViewCell, WriteHistoryCellProtocol, EditHistoryCellProtocol {
     private let titleLabel = UILabel(font: .boldSystemFont(ofSize: 16), textColor: .black)
     
     public override init(frame: CGRect) {
@@ -27,6 +27,11 @@ public final class WriteHistoryTitleHeaderCell: UICollectionViewCell, WriteHisto
     }
     
     public func apply(cellData: WriteHistoryCellData) {
+        guard case let .titleHeader(title) = cellData else { return }
+        titleLabel.text = title
+    }
+    
+    public func apply(cellData: EditHistoryCellData) {
         guard case let .titleHeader(title) = cellData else { return }
         titleLabel.text = title
     }

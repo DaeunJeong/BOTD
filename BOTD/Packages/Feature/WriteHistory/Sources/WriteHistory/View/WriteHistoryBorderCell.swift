@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class WriteHistoryBorderCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryBorderCell: UICollectionViewCell, WriteHistoryCellProtocol, EditHistoryCellProtocol {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -19,4 +19,5 @@ public final class WriteHistoryBorderCell: UICollectionViewCell, WriteHistoryCel
     }
     
     public func apply(cellData: WriteHistoryCellData) {    }
+    public func apply(cellData: EditHistoryCellData) {    }
 }

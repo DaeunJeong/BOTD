@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCellProtocol {
+public final class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCellProtocol, EditHistoryCellProtocol {
     private let addButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12))?
@@ -50,4 +50,5 @@ public final class WriteHistoryAddMemoCell: UICollectionViewCell, WriteHistoryCe
     }
     
     public func apply(cellData: WriteHistoryCellData) {    }
+    public func apply(cellData: EditHistoryCellData) {    }
 }

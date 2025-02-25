@@ -17,9 +17,13 @@ public final class HistoryDetailCoordinator: HistoryDetailCoordinatorProtocol {
     }
     
     public func presentEditHistoryVC(historyID: String) {
-        let vc = EditHistoryViewController()
-        let nc = UINavigationController(rootViewController: vc)
+        let nc = UINavigationController()
+        let cd = EditHistoryCoordinator(nav: nc)
+        let rp = EditHistoryRepository()
+        let vm = EditHistoryViewModel(repository: rp, historyID: historyID)
+        let vc = EditHistoryViewController(coordinator: cd, viewModel: vm)
         nc.modalPresentationStyle = .fullScreen
+        nc.viewControllers = [vc]
         nav?.present(nc, animated: true)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import CommonUI
 
-public final class WriteHistoryMemoCell: MemoCell, WriteHistoryCellProtocol {
+public final class WriteHistoryMemoCell: MemoCell, WriteHistoryCellProtocol, EditHistoryCellProtocol {
     private let deleteButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "minus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 12))?
@@ -42,6 +42,14 @@ public final class WriteHistoryMemoCell: MemoCell, WriteHistoryCellProtocol {
     }
     
     public func apply(cellData: WriteHistoryCellData) {
+        if case let .passage(text) = cellData {
+            apply(text: text)
+        } else if case let .memo(text) = cellData {
+            apply(text: text)
+        }
+    }
+    
+    public func apply(cellData: EditHistoryCellData) {
         if case let .passage(text) = cellData {
             apply(text: text)
         } else if case let .memo(text) = cellData {
