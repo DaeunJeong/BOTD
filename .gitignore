@@ -107,7 +107,6 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 ### SwiftPackageManager ###
-Packages
 .build/
 xcuserdata
 DerivedData/
