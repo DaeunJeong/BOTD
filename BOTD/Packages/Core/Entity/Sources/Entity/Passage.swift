@@ -15,7 +15,7 @@ public struct Passage {
 }
 
 public class RealmPassage: Object {
-    @Persisted(primaryKey: true) var id: String = ""
+    @Persisted(primaryKey: true) public var id: String = ""
     @Persisted var text: String = ""
     @Persisted var historyID: String = ""
     

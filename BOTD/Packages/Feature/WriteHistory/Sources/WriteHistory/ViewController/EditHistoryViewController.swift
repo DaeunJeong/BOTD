@@ -40,7 +40,7 @@ public class EditHistoryViewController: UIViewController {
         var config = UIButton.Configuration.plain()
         config.background.cornerRadius = 8
         config.background.backgroundColor = .beige700
-        config.attributedTitle = .init("편집 완료", font: .boldSystemFont(ofSize: 16), color: .white)
+        config.attributedTitle = .init("수정 완료", font: .boldSystemFont(ofSize: 16), color: .white)
         let button = UIButton(configuration: config)
         button.configurationUpdateHandler = { button in
             switch button.state {
@@ -71,6 +71,8 @@ public class EditHistoryViewController: UIViewController {
         setupCollectionView()
         setupBindings()
         setupConstraints()
+        
+        viewModel.getHistory()
     }
     
     @objc private func tapCloseButton() {

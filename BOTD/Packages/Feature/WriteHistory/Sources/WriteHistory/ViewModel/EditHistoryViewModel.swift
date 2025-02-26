@@ -14,11 +14,12 @@ public protocol EditHistoryViewModelProtocol {
     var sections: Observable<[EditHistorySection]> { get }
     var isEnabledToComplete: Observable<Bool> { get }
     
+    func getHistory()
     func addPassage(_ passage: String)
     func deletePassage(index: Int)
     func addMemo(_ memo: String)
     func deleteMemo(index: Int)
-    @MainActor func editHistory()
+    func editHistory()
 }
 
 public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
@@ -56,6 +57,13 @@ public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
             .map({ !$0.isEmpty || !$1.isEmpty })
     }
     
+    public func getHistory() {
+        guard let history = repository.getHistory(id: historyID) else { return }
+        let passageList = history.passageIDs.compactMap({ repository.getPassage(id: $0)?.text })
+        self.passageList.accept(passageList)
+        memoList.accept(history.memos)
+    }
+    
     public func addPassage(_ passage: String) {
         passageList.accept(passageList.value + [passage])
     }
@@ -76,7 +84,7 @@ public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
         self.memoList.accept(memoList)
     }
     
-    @MainActor public func editHistory() {
-        
+    public func editHistory() {
+        repository.editHistory(historyID: historyID, passageList: passageList.value, memoList: memoList.value)
     }
 }
