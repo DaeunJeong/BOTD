@@ -33,6 +33,7 @@ class MainTabBarController: UITabBarController {
             return libraryNC
         }
         tabs = [homeTab, libraryTab]
+        tabBar.tintColor = .brown400
     }
     
     required init?(coder: NSCoder) {
