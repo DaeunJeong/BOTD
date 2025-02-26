@@ -10,9 +10,12 @@ import RxDataSources
 import RxSwift
 
 public class EditHistoryViewController: UIViewController {
-    public init(coordinator: EditHistoryCoordinatorProtocol, viewModel: EditHistoryViewModelProtocol) {
+    public init(coordinator: EditHistoryCoordinatorProtocol, viewModel: EditHistoryViewModelProtocol,
+                completeToEditHandler: @escaping () -> Void, completeToDeleteHandler: @escaping () -> Void) {
         self.coordinator = coordinator
         self.viewModel = viewModel
+        self.completeToEditHandler = completeToEditHandler
+        self.completeToDeleteHandler = completeToDeleteHandler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -22,6 +25,9 @@ public class EditHistoryViewController: UIViewController {
     
     private let coordinator: EditHistoryCoordinatorProtocol
     private let viewModel: EditHistoryViewModelProtocol
+    private let completeToEditHandler: () -> Void
+    private let completeToDeleteHandler: () -> Void
+    
     private let disposeBag = DisposeBag()
     typealias DataSource = RxCollectionViewSectionedReloadDataSource
     private var dataSource: DataSource<EditHistorySection>?
@@ -58,6 +64,8 @@ public class EditHistoryViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = .init(image: .init(systemName: "xmark")?.withTintColor(.black, renderingMode: .alwaysOriginal),
                                                  style: .plain, target: self, action: #selector(tapCloseButton))
+        navigationItem.rightBarButtonItem = .init(image: .init(systemName: "trash")?.withTintColor(.black, renderingMode: .alwaysOriginal),
+                                                  style: .plain, target: self, action: #selector(tapDeleteButton))
     }
     
     public override func viewDidLoad() {
@@ -77,6 +85,17 @@ public class EditHistoryViewController: UIViewController {
     
     @objc private func tapCloseButton() {
         navigationController?.dismiss(animated: true)
+    }
+    
+    @objc private func tapDeleteButton() {
+        let alert = UIAlertController(title: "기록 삭제", message: "기록을 삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(.init(title: "확인", style: .default, handler: { [weak self] _ in
+            self?.viewModel.deleteHistory()
+            self?.navigationController?.dismiss(animated: true, completion: { [weak self] in
+                self?.completeToDeleteHandler()
+            })
+        }))
+        present(alert, animated: true)
     }
     
     private func setupCollectionView() {
@@ -143,7 +162,9 @@ public class EditHistoryViewController: UIViewController {
         viewModel.editHistory()
         let alert = UIAlertController(title: "수정 완료", message: "기록이 수정되었습니다", preferredStyle: .alert)
         alert.addAction(.init(title: "확인", style: .default, handler: { [weak self] _ in
-            self?.navigationController?.dismiss(animated: true)
+            self?.navigationController?.dismiss(animated: true, completion: { [weak self] in
+                self?.completeToEditHandler()
+            })
         }))
         present(alert, animated: true)
     }

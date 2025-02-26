@@ -107,7 +107,12 @@ public final class HistoryDetailViewController: UIViewController {
     
     @objc private func tapEditButton() {
         guard let historyID = viewModel.getCurrentHistoryID() else { return }
-        coordinator.presentEditHistoryVC(historyID: historyID)
+        coordinator.presentEditHistoryVC(historyID: historyID,
+                                         completeToEditHandler: { [weak self] in
+            self?.viewModel.refreshHistory(id: historyID)
+        }, completeToDeleteHandler: { [weak self] in
+            self?.navigationController?.dismiss(animated: true)
+        })
     }
     
     private func setupConstraints() {

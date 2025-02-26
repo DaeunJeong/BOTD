@@ -18,6 +18,7 @@ public protocol HistoryDetailViewModelProtocol {
     func moveToPrevious()
     func moveToNext()
     func getCurrentHistoryID() -> String?
+    func refreshHistory(id: String)
 }
 
 public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
@@ -130,8 +131,8 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
         getHistoryIfNeeded(id: nextID)
     }
     
-    private func getHistoryIfNeeded(id: String) {
-        guard !histories.value.keys.contains(id),
+    private func getHistoryIfNeeded(id: String, isForced: Bool = false) {
+        guard !histories.value.keys.contains(id) || isForced,
               let history = repository.getHistory(id: id) else { return }
         var histories = self.histories.value
         histories[id] = history
@@ -153,5 +154,9 @@ public struct HistoryDetailViewModel: HistoryDetailViewModelProtocol {
     
     public func getCurrentHistoryID() -> String? {
         currentHistoryID.value
+    }
+    
+    public func refreshHistory(id: String) {
+        getHistoryIfNeeded(id: id, isForced: true)
     }
 }

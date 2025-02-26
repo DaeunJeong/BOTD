@@ -20,10 +20,12 @@ public protocol EditHistoryViewModelProtocol {
     func addMemo(_ memo: String)
     func deleteMemo(index: Int)
     func editHistory()
+    @MainActor func deleteHistory()
 }
 
 public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
     private let repository: EditHistoryRepositoryProtocol
+    private let eventBus: EventBusProtocol
     private let historyID: String
     private let passageList = BehaviorRelay<[String]>(value: [])
     private let memoList = BehaviorRelay<[String]>(value: [])
@@ -31,8 +33,9 @@ public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
     public let sections: Observable<[EditHistorySection]>
     public let isEnabledToComplete: Observable<Bool>
     
-    public init(repository: EditHistoryRepositoryProtocol, historyID: String) {
+    public init(repository: EditHistoryRepositoryProtocol, eventBus: EventBusProtocol, historyID: String) {
         self.repository = repository
+        self.eventBus = eventBus
         self.historyID = historyID
         sections = Observable.combineLatest(passageList, memoList)
             .map({ passageList, memoList in
@@ -86,5 +89,10 @@ public struct EditHistoryViewModel: EditHistoryViewModelProtocol {
     
     public func editHistory() {
         repository.editHistory(historyID: historyID, passageList: passageList.value, memoList: memoList.value)
+    }
+    
+    @MainActor public func deleteHistory() {
+        repository.deleteHistory(historyID: historyID)
+        eventBus.publish(event: .refreshHistories)
     }
 }

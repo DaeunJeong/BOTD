@@ -15,7 +15,7 @@ public struct HistoryOfDate {
 
 public class RealmHistoryOfDate: Object {
     @Persisted(primaryKey: true) var id: String = "" // yyyyMMdd
-    @Persisted var historyIDs = List<String>()
+    @Persisted public var historyIDs = List<String>()
     
     public convenience init(id: String, historyIDs: [String]) {
         let historyIDList = List<String>()

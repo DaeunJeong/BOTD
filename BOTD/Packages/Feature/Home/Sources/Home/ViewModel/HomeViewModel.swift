@@ -90,7 +90,12 @@ public struct HomeViewModel: HomeViewModelProtocol {
     
     private func getHistoryIfNeeded(date: Date) {
         let dateString = DateFormatter(dateFormat: "yyyyMMdd").string(from: date)
-        guard let historyOfDate = repository.getHistoryOfDate(id: dateString) else { return }
+        guard let historyOfDate = repository.getHistoryOfDate(id: dateString) else {
+            var historyOfDates = historyOfDates.value
+            historyOfDates[dateString] = nil
+            self.historyOfDates.accept(historyOfDates)
+            return
+        }
         var historyOfDates = historyOfDates.value
         historyOfDates[dateString] = historyOfDate
         self.historyOfDates.accept(historyOfDates)

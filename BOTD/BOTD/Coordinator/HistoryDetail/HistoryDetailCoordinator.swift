@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import WriteHistory
+import EventBus
 import HistoryDetail
+import WriteHistory
 
 public final class HistoryDetailCoordinator: HistoryDetailCoordinatorProtocol {
     private weak var nav: UINavigationController?
@@ -16,12 +17,14 @@ public final class HistoryDetailCoordinator: HistoryDetailCoordinatorProtocol {
         self.nav = nav
     }
     
-    public func presentEditHistoryVC(historyID: String) {
+    @MainActor public func presentEditHistoryVC(historyID: String, completeToEditHandler: @escaping () -> Void,
+                                                completeToDeleteHandler: @escaping () -> Void) {
         let nc = UINavigationController()
         let cd = EditHistoryCoordinator(nav: nc)
         let rp = EditHistoryRepository()
-        let vm = EditHistoryViewModel(repository: rp, historyID: historyID)
-        let vc = EditHistoryViewController(coordinator: cd, viewModel: vm)
+        let vm = EditHistoryViewModel(repository: rp, eventBus: EventBus.shared, historyID: historyID)
+        let vc = EditHistoryViewController(coordinator: cd, viewModel: vm, completeToEditHandler: completeToEditHandler,
+                                           completeToDeleteHandler: completeToDeleteHandler)
         nc.modalPresentationStyle = .fullScreen
         nc.viewControllers = [vc]
         nav?.present(nc, animated: true)
